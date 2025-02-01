@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange }) => {
             className="fixed top-0 left-0 w-full bg-yellow-900 shadow-lg p-4 flex items-center justify-between z-50"
           >
             <div className="ml-4">
-              <Image src="/name.png" width={80} height={80} alt="Heather Burns" />
+              <Image src="/public/name.png" width={80} height={80} alt="Heather Burns" />
             </div>
             <div className="flex text-amber-400 text-xl mr-6">
               <a className="mx-3 relative group cursor-pointer" onClick={() => onTabChange("Contact")}>Contact</a>

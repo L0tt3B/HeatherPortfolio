@@ -39,7 +39,7 @@ export default function Home() {
           className="absolute bottom-[-4rem] left-1/2 transform -translate-x-1/2 border-none bg-transparent focus:outline-none z-10"
         >
           <Image
-            src="/TAPE2.png" // Make sure this image exists in the public folder
+            src="/public/TAPE2.png"
             width={150}
             height={150}
             alt="Buckle button"
