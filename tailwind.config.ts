@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        custom: ["CustomFont", "Arial", "sans-serif"],
+      },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],

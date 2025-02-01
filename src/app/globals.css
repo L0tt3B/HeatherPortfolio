@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "CustomFont";
+  src: url("/fonts/Heatherfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,7 +25,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "CustomFont", Arial, Helvetica, sans-serif;
 }
 
 .transition-transform {

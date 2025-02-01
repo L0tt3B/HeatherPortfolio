@@ -6,22 +6,27 @@ interface ArtProps {
 }
 
 const Art = ({ images }: ArtProps) => {
-  const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
-  const observerRefs = useRef<(HTMLDivElement | null)[]>([]); // Array of refs
+  const [visibleIndices, setVisibleIndices] = useState<Set<number>>(new Set());
+  const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        const index = observerRefs.current.indexOf(entry.target as HTMLDivElement);
-        if (entry.isIntersecting && index !== -1) {
-          setVisibleIndices((prev) => [...prev, index]);
-        }
+      setVisibleIndices((prev) => {
+        const newSet = new Set(prev);
+        entries.forEach((entry) => {
+          const index = observerRefs.current.indexOf(entry.target as HTMLDivElement);
+          if (entry.isIntersecting && index !== -1) {
+            newSet.add(index);
+          }
+        });
+        return newSet;
       });
     };
 
     const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.01, // Trigger when at least 1% of the card is visible
-      rootMargin: "0px -20% 0px -20%", // Allow margin so cards are visible slightly at the edges
+      threshold: 0.1,
+      rootMargin: "0px 0px -10% 0px",
     });
 
     observerRefs.current.forEach((ref) => {
@@ -30,48 +35,78 @@ const Art = ({ images }: ArtProps) => {
       }
     });
 
-    return () => observer.disconnect(); // Clean up observer
+    return () => observer.disconnect();
   }, []);
 
+  const handleNext = () => {
+    if (selectedImage !== null) {
+      setSelectedImage((prev) => (prev !== null && prev < images.length - 1 ? prev + 1 : prev));
+    }
+  };
+
+  const handlePrev = () => {
+    if (selectedImage !== null) {
+      setSelectedImage((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+    }
+  };
+
   return (
-    <div className="w-full flex flex-col gap-12 p-8">
+    <div className="w-full p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 auto-rows-fr">
       {images.map((src, index) => (
         <div
           key={index}
           ref={(el) => {
-            observerRefs.current[index] = el; // Assign ref and return void
+            observerRefs.current[index] = el;
           }}
-          className={`w-full flex ${
-            index % 2 === 0 ? "justify-start" : "justify-end"
-          } items-center bg-yellow-900 rounded-lg shadow-lg p-6 min-h-[200px] transition-all duration-700 ease-out ${
-            visibleIndices.includes(index)
-              ? "opacity-100 translate-x-0"
-              : index % 2 === 0
-              ? "opacity-0 -translate-x-10"
-              : "opacity-0 translate-x-10"
+          className={`relative w-full aspect-square cursor-pointer overflow-hidden rounded-lg shadow-lg transition-opacity duration-700 ease-out ${
+            visibleIndices.has(index) ? "opacity-100" : "opacity-0"
           }`}
+          onClick={() => setSelectedImage(index)}
         >
-          {/* Image Section */}
-          <div
-            className={`w-[40%] ${
-              index % 2 === 0 ? "mr-auto" : "ml-auto"
-            } transition-transform`}
-          >
-            <Image
-              src={src}
-              alt={`Art piece ${index + 1}`}
-              width={400}
-              height={400}
-              className="rounded-lg"
-            />
-          </div>
-
-          {/* Text Section */}
-          <div className="w-[60%] p-6 text-center text-amber-400 text-xl">
-            <p>{`Art Piece ${index + 1}`}</p>
-          </div>
+          <Image
+            src={src}
+            alt={`Art piece ${index + 1}`}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-lg"
+          />
         </div>
       ))}
+
+      {selectedImage !== null && (
+        <div
+          className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50 p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-2xl w-full flex flex-col items-center">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrev();
+              }}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl p-2 bg-gray-800 bg-opacity-50 rounded-full"
+            >
+              ❮
+            </button>
+            <Image
+              src={images[selectedImage]}
+              alt="Selected Art"
+              width={600}
+              height={600}
+              className="rounded-lg max-h-[80vh] w-auto"
+            />
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNext();
+              }}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl p-2 bg-gray-800 bg-opacity-50 rounded-full"
+            >
+              ❯
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

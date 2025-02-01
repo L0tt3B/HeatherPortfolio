@@ -1,15 +1,24 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import UnlockedContent from "./unlockedContent"; // Import unlocked content
 import Bag from "./bag"; // Import Bag component
 import Image from "next/image"; // Import Next.js Image component
+import Navbar from "./navbar";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("Art");
+  const linksRef = useRef<HTMLDivElement | null>(null);
+
 
   const toggleBag = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    setIsOpen(true);
+  }
 
   // Automatically scroll to unlocked content when it opens
   useEffect(() => {
@@ -20,9 +29,10 @@ export default function Home() {
 
   return (
     <div className="bg-yellow-950 w-full min-h-screen">
+      <Navbar targetRef={linksRef} onTabChange={handleTabChange}/>
       {/* Bag section - 80% height and 100% width */}
-      <div className="w-full h-[80vh] relative">
-        <Bag />
+      <div className="w-full h-[80vh] relative" ref={linksRef}>
+        <Bag onTabChange={handleTabChange}/>
         {/* Buckle button with image */}
         <button
           onClick={toggleBag}
@@ -33,7 +43,7 @@ export default function Home() {
             width={150}
             height={150}
             alt="Buckle button"
-            className="hover:scale-105 transition-transform duration-300"
+            className="hover:scale-110 transition-transform duration-100"
           />
         </button>
       </div>
@@ -42,7 +52,7 @@ export default function Home() {
       <div className={`bg-orange-900 flex flex-col items-center justify-center w-full h-screen ${isOpen ? "" : "hidden"}`}>
         {/* Unlocked content section */}
         <div className="w-full min-h-screen scrollbar-hide">
-          <UnlockedContent />
+          <UnlockedContent component={activeTab}/>
         </div>
       </div>
     </div>

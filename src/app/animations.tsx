@@ -5,7 +5,7 @@ interface AnimationProps {
     videos: string[];
 }
 
-const Art = ({ videos }: AnimationProps) => {
+const Animations = ({ videos }: AnimationProps) => {
   const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]); // Array of refs
 
@@ -57,18 +57,16 @@ const Art = ({ videos }: AnimationProps) => {
               index % 2 === 0 ? "mr-auto" : "ml-auto"
             } transition-transform`}
           >
-            <Image
+            <video
               src={src}
-              alt={`Art piece ${index + 1}`}
-              width={400}
-              height={400}
-              className="rounded-lg"
+              controls
+              className="w-full h-auto"
             />
           </div>
 
           {/* Text Section */}
           <div className="w-[60%] p-6 text-center text-amber-400 text-xl">
-            <p>{`Art Piece ${index + 1}`}</p>
+            <p>{`Animation Piece ${index + 1}`}</p>
           </div>
         </div>
       ))}
@@ -76,4 +74,4 @@ const Art = ({ videos }: AnimationProps) => {
   );
 };
 
-export default Art;
+export default Animations;

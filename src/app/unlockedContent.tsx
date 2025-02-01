@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import Art from "./art";
+import Animations from "./animations";
+import AboutMe from "./aboutme";
+import FooterPage from "./footer";
+import DefaultPage from "./defaultPage";
 
-const UnlockedContent = () => {
+interface UnlockedContentProps {
+  component: string;
+}
+
+const UnlockedContent = ({ component }: UnlockedContentProps) => {
   const [isVisible, setIsVisible] = useState(false);
+
   const images = [
     "/newjeans.png",
     "/cocoon1.png",
@@ -12,13 +21,28 @@ const UnlockedContent = () => {
   ];
 
   const videos = [
-
+    "/Thepitch.mp4"
   ];
 
   useEffect(() => {
     const timeout = setTimeout(() => setIsVisible(true), 50); // Delays the animation slightly
     return () => clearTimeout(timeout);
-  }, []);
+  }, [component]);
+
+  const renderComponent = () => {
+    switch (component) {
+      case "Animations":
+        return <Animations videos={videos}/>;
+      case "Art":
+        return <Art images={images}/>;
+      case "AboutMe":
+        return <AboutMe />;
+      default:
+        return <DefaultPage/>;
+      
+    }
+
+  }
 
   return (
     <div
@@ -27,13 +51,12 @@ const UnlockedContent = () => {
       }`}
     >
       <div className="mt-20 text-center">
-        <h1 className="text-4xl font-bold text-white">What's in here...?</h1>
-        <p className="mt-4 text-lg text-white">
-          Scroll freely to explore both sections!
-        </p>
       </div>
       <div className="w-full">
-        <Art images={images} />
+        {renderComponent()}
+      </div>
+      <div className="bottom-0">
+        <FooterPage />
       </div>
     </div>
   );
