@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "CustomFont";
-  src: url("/public/fonts/Heatherfont.woff") format("woff");
+  src: url("/HeatherPortfolio/fonts/Heatherfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
