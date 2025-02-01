@@ -9,7 +9,7 @@ const Bag = ({ onTabChange }: BagProps) => {
     <div className="bg-yellow-900 w-full h-full rounded-lg flex flex-col justify-center items-center p-6">
       <div>
         <Image
-          src="/public/name.png"
+          src="/name.png"
           width={650}
           height={600}
           alt="Heather Burns"

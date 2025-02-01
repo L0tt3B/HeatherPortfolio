@@ -13,15 +13,15 @@ const UnlockedContent = ({ component }: UnlockedContentProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const images = [
-    "/public/newjeans.png",
-    "/public/cocoon1.png",
-    "/public/women.png",
-    "/public/dragon.png",
-    "/public/uk.png",
+    "/newjeans.png",
+    "/cocoon1.png",
+    "/women.png",
+    "/dragon.png",
+    "/uk.png",
   ];
 
   const videos = [
-    "/public/Thepitch.mp4"
+    "/Thepitch.mp4"
   ];
 
   useEffect(() => {
