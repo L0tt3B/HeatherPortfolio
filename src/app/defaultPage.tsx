@@ -6,11 +6,11 @@ const DefaultPage = () => {
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]); // Array of refs
 
   const containerData = [
-    { text: "Story", image: "/two.jpg" },
-    { text: "Comics", image: "/newjeans.png" },
-    { text: "Characters", image: "/dragon.png" },
-    { text: "Illustration", image: "/women.png" },
-    { text: "About", image: "/hobbies.jpg" }
+    { text: "Story", image: "/HeatherPortfolio/two.jpg" },
+    { text: "Comics", image: "/HeatherPortfolio/newjeans.png" },
+    { text: "Characters", image: "/HeatherPortfoliodragon.png" },
+    { text: "Illustration", image: "/HeatherPortfolio/women.png" },
+    { text: "About", image: "/HeatherPortfolio/hobbies.jpg" }
   ];
 
   useEffect(() => {

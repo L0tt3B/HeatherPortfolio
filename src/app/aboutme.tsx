@@ -14,7 +14,7 @@ const AboutMe = () => {
           </h2>
           <div className="flex items-center mx-5 mt-5 space-x-5">
             <Image
-              src="/heather.jpg"
+              src="/HeatherPortfolio/heather.jpg"
               alt="You."
               width={200}
               height={200}
@@ -47,7 +47,7 @@ const AboutMe = () => {
             <div>
               <p className="text-center mb-2">Confidence:</p>
               <Image
-                src="/work.jpg"
+                src="/HeatherPortfolio/work.jpg"
                 alt="You."
                 width={200}
                 height={200}
@@ -56,14 +56,14 @@ const AboutMe = () => {
             </div>
             <div className="flex flex-wrap">
               <Image 
-                src="/AI.png"
+                src="/HeatherPortfolio/AI.png"
                 alt="AI"
                 width={140}
                 height={100}
                 className="rounded-2xl"
               />
               <Image 
-                src="/PS.png"
+                src="/HeatherPortfolio/PS.png"
                 alt="AI"
                 width={100}
                 height={100}
