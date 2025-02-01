@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const FooterPage = () => {
   return (
     <div className="bg-black w-full max-w-full text-center text-white p-6">
