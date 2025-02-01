@@ -8,7 +8,7 @@ const DefaultPage = () => {
   const containerData = [
     { text: "Story", image: "/HeatherPortfolio/two.jpg" },
     { text: "Comics", image: "/HeatherPortfolio/newjeans.png" },
-    { text: "Characters", image: "/HeatherPortfoliodragon.png" },
+    { text: "Characters", image: "/HeatherPortfolio/dragon.png" },
     { text: "Illustration", image: "/HeatherPortfolio/women.png" },
     { text: "About", image: "/HeatherPortfolio/hobbies.jpg" }
   ];

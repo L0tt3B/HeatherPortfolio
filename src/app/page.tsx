@@ -12,6 +12,7 @@ export default function Home() {
 
 
   const toggleBag = () => {
+    setActiveTab("Default");
     setIsOpen(!isOpen);
   };
 
