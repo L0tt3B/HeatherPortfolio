@@ -1,27 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Art from "./art";
 import Animations from "./animations";
 import AboutMe from "./aboutme";
 import FooterPage from "./footer";
 import DefaultPage from "./defaultPage";
+import Resume from "./resume";
 
 interface UnlockedContentProps {
   component: string;
+  footerRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const UnlockedContent = ({ component }: UnlockedContentProps) => {
+const UnlockedContent = ({ component, footerRef }: UnlockedContentProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
+
+  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  const imagePath = isOnline ? "/HeatherPortfolio" : "";
+
   const images = [
-    "/HeatherPortfolio/newjeans.png",
-    "/HeatherPortfolio/cocoon1.png",
-    "/HeatherPortfolio/women.png",
-    "/HeatherPortfolio/dragon.png",
-    "/HeatherPortfolio/uk.png",
+    `${imagePath}/newjeans.png`,
+    `${imagePath}/cocoon1.png`,
+    `${imagePath}/women.png`,
+    `${imagePath}/dragon.png`,
+    `${imagePath}/uk.png`,
   ];
 
   const videos = [
-    "/HeatherPortfolio/Thepitch.mp4"
+    `${imagePath}/Thepitch.mp4`
   ];
 
   useEffect(() => {
@@ -29,20 +35,26 @@ const UnlockedContent = ({ component }: UnlockedContentProps) => {
     return () => clearTimeout(timeout);
   }, [component]);
 
+  useEffect(() => {
+    if (component === "Contact" && footerRef.current) {
+      footerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [component]);
+
   const renderComponent = () => {
     switch (component) {
       case "Animations":
-        return <Animations videos={videos}/>;
+        return <Animations videos={videos} />;
       case "Art":
-        return <Art images={images}/>;
+        return <Art images={images} />;
       case "AboutMe":
         return <AboutMe />;
+      case "Resume":
+        return <Resume />;
       default:
-        return <DefaultPage/>;
-      
+        return <DefaultPage />;
     }
-
-  }
+  };
 
   return (
     <div
@@ -50,12 +62,9 @@ const UnlockedContent = ({ component }: UnlockedContentProps) => {
         isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
       }`}
     >
-      <div className="mt-20 text-center">
-      </div>
-      <div className="w-full">
-        {renderComponent()}
-      </div>
-      <div className="bottom-0">
+      <div className="mt-20 text-center"></div>
+      <div className="w-full">{renderComponent()}</div>
+      <div className="bottom-0" ref={footerRef}>
         <FooterPage />
       </div>
     </div>

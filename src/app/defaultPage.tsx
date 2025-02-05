@@ -5,12 +5,15 @@ const DefaultPage = () => {
   const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]); // Array of refs
 
+  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  const imagePath = isOnline ? "/HeatherPortfolio" : "";
+
   const containerData = [
-    { text: "Story", image: "/HeatherPortfolio/two.jpg" },
-    { text: "Comics", image: "/HeatherPortfolio/newjeans.png" },
-    { text: "Characters", image: "/HeatherPortfolio/dragon.png" },
-    { text: "Illustration", image: "/HeatherPortfolio/women.png" },
-    { text: "About", image: "/HeatherPortfolio/hobbies.jpg" }
+    { text: "Story", image: `${imagePath}/two.jpg` },
+    { text: "Comics", image: `${imagePath}/newjeans.png` },
+    { text: "Characters", image: `${imagePath}/dragon.png` },
+    { text: "Illustration", image: `${imagePath}/women.png`},
+    { text: "About", image: `${imagePath}/hobbies.jpg` }
   ];
 
   useEffect(() => {
