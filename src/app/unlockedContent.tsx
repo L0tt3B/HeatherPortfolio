@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Art from "./art";
 import Animations from "./animations";
 import AboutMe from "./aboutme";

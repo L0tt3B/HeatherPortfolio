@@ -16,6 +16,8 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
 
   useEffect(() => {
     if (!targetRef.current) return;
+
+    const currentRef = targetRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setShowNavbar(!entry.isIntersecting);
@@ -23,11 +25,11 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
       { threshold: 0.1 }
     );
 
-    observer.observe(targetRef.current);
+    observer.observe(currentRef);
 
     return () => {
-      if (targetRef.current) {
-        observer.unobserve(targetRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [targetRef]);
