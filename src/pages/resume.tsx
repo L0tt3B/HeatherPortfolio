@@ -1,5 +1,3 @@
-"use client"; // Ensure this is a Client Component
-
 import { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
