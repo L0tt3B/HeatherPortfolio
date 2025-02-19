@@ -22,16 +22,17 @@ export default function Home() {
   };
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    setIsOpen(true);
     if (tab === "Contact" && footerRef.current) {
-      setIsOpen(true);
+      //setIsOpen(true);
       setTimeout(() => {
         if (footerRef.current) {
           footerRef.current.scrollIntoView({ behavior: "smooth" });
         }
       }, 100);
       return;    }
+
+    setActiveTab(tab);
+    setIsOpen(true);
   };
 
   // Automatically scroll to unlocked content when it opens
@@ -73,7 +74,7 @@ export default function Home() {
       <div className={`bg-orange-900 flex flex-col items-center justify-center w-full h-screen ${isOpen ? "" : "hidden"}`}>
         {/* Unlocked content section */}
         <div className="w-full min-h-screen scrollbar-hide">
-          <UnlockedContent component={activeTab} footerRef={footerRef} />
+          <UnlockedContent component={activeTab} footerRef={footerRef} onTabChange={handleTabChange} />
         </div>
       </div>
     </div>

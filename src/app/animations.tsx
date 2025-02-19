@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
-interface AnimationProps {
-    videos: string[];
+interface AnimationItem {
+  src: string;
+  text: string;
 }
 
-const Animations = ({ videos }: AnimationProps) => {
+interface AnimationProps {
+  videos: AnimationItem[];
+  gifs: AnimationItem[];
+}
+
+const Animations = ({ videos, gifs }: AnimationProps) => {
   const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
-  const observerRefs = useRef<(HTMLDivElement | null)[]>([]); // Array of refs
+  const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -19,8 +25,8 @@ const Animations = ({ videos }: AnimationProps) => {
     };
 
     const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.01, // Trigger when at least 1% of the card is visible
-      rootMargin: "0px -20% 0px -20%", // Allow margin so cards are visible slightly at the edges
+      threshold: 0.01,
+      rootMargin: "0px -20% 0px -20%",
     });
 
     observerRefs.current.forEach((ref) => {
@@ -29,16 +35,17 @@ const Animations = ({ videos }: AnimationProps) => {
       }
     });
 
-    return () => observer.disconnect(); // Clean up observer
+    return () => observer.disconnect();
   }, []);
 
   return (
     <div className="w-full flex flex-col gap-12 p-8">
-      {videos.map((src, index) => (
+      {/* Render Videos */}
+      {videos.map((video, index) => (
         <div
-          key={index}
+          key={`video-${index}`}
           ref={(el) => {
-            observerRefs.current[index] = el; // Assign ref and return void
+            observerRefs.current[index] = el;
           }}
           className={`w-full flex ${
             index % 2 === 0 ? "justify-start" : "justify-end"
@@ -50,22 +57,37 @@ const Animations = ({ videos }: AnimationProps) => {
               : "opacity-0 translate-x-10"
           }`}
         >
-          {/* Image Section */}
-          <div
-            className={`w-[40%] ${
-              index % 2 === 0 ? "mr-auto" : "ml-auto"
-            } transition-transform`}
-          >
-            <video
-              src={src}
-              controls
-              className="w-full h-auto"
-            />
+          <div className={`w-[40%] ${index % 2 === 0 ? "mr-auto" : "ml-auto"} transition-transform`}>
+            <video src={video.src} controls className="w-full h-auto rounded-lg shadow-md" />
           </div>
-
-          {/* Text Section */}
           <div className="w-[60%] p-6 text-center text-amber-400 text-xl">
-            <p>{`Animation Piece ${index + 1}`}</p>
+            <p>{video.text}</p>
+          </div>
+        </div>
+      ))}
+
+      {/* Render GIFs */}
+      {gifs.map((gif, index) => (
+        <div
+          key={`gif-${index}`}
+          ref={(el) => {
+            observerRefs.current[videos.length + index] = el;
+          }}
+          className={`w-full flex ${
+            index % 2 === 0 ? "justify-start" : "justify-end"
+          } items-center bg-yellow-900 rounded-lg shadow-lg p-6 min-h-[200px] transition-all duration-700 ease-out ${
+            visibleIndices.includes(videos.length + index)
+              ? "opacity-100 translate-x-0"
+              : index % 2 === 0
+              ? "opacity-0 -translate-x-10"
+              : "opacity-0 translate-x-10"
+          }`}
+        >
+          <div className={`w-[40%] ${index % 2 === 0 ? "mr-auto" : "ml-auto"} transition-transform`}>
+            <img src={gif.src} alt={gif.text} className="w-full h-auto rounded-lg shadow-md" />
+          </div>
+          <div className="w-[60%] p-6 text-center text-amber-400 text-xl">
+            <p>{gif.text}</p>
           </div>
         </div>
       ))}
