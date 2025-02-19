@@ -42,7 +42,7 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
   return (
     <div className="w-full flex flex-col gap-12 p-8">
       {/* Render Videos */}
-      {videos.map((video, index) => (
+      {videos?.map((video, index) => (
         <div
           key={`video-${index}`}
           ref={(el) => {
@@ -68,7 +68,7 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
       ))}
 
       {/* Render GIFs with Next.js Image */}
-      {gifs.map((gif, index) => (
+      {gifs?.map((gif, index) => (
         <div
           key={`gif-${index}`}
           ref={(el) => {

@@ -78,7 +78,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
   return (
     <div className="w-full flex flex-col gap-6 p-4 items-center">
-      {containerData.map((item, index) => (
+      {containerData?.map((item, index) => (
         <div
           key={index}
           ref={(el) => {
@@ -113,7 +113,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
             // pdf
             <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg">
               <div className="flex w-full h-full">
-                {comicPages.map((pageNumber, i) => (
+                {comicPages?.map((pageNumber, i) => (
                   <div key={i} className="flex-grow h-full">
                     <Document file={`${imagePath}/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
                       <Page 
@@ -132,7 +132,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
             // About
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
               <div className="w-full h-full flex">
-                {item.images.map((src, i) => (
+                {item.images?.map((src, i) => (
                   <Image
                     key={i}
                     src={src}

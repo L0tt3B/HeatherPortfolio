@@ -11,8 +11,8 @@ interface ComicsProps {
 
 const Comics = ({ comics }: ComicsProps) => {
   const [selectedComic, setSelectedComic] = useState<string | null>(null);
-  const [pageNumber, setPageNumber] = useState<number[]>(comics.map(() => 1)); // Track page per comic
-  const [numPages, setNumPages] = useState<number[]>(comics.map(() => 1));
+  const [pageNumber, setPageNumber] = useState<number[]>(comics?.map(() => 1)); // Track page per comic
+  const [numPages, setNumPages] = useState<number[]>(comics?.map(() => 1));
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentComicIndex, setCurrentComicIndex] = useState<number | null>(null);
 
@@ -65,7 +65,7 @@ const Comics = ({ comics }: ComicsProps) => {
 
   return (
     <div className="w-full flex flex-col gap-12 p-6">
-      {comics.map((comic, index) => (
+      {comics?.map((comic, index) => (
         <div
           key={index}
           ref={(el) => {

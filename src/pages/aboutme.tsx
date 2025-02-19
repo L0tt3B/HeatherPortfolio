@@ -58,7 +58,7 @@ const AboutMe = () => {
               { src: "Adobe_Creative_Cloud.png", width: 100, height: 100 },
               { src: "Krita.png", width: 100, height: 100 },
               { src: "CPS.png", width: 100, height: 100 },
-            ].map((software, index) => (
+            ]?.map((software, index) => (
               <div key={index} className="flex justify-center">
                 <Image
                   src={`${imagePath}/${software.src}`}

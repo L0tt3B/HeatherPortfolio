@@ -16,7 +16,7 @@ const FooterPage = () => {
           { href: "https://www.instagram.com/yourusername", icon: faInstagram },
           { href: "https://www.linkedin.com/in/yourusername", icon: faLinkedin },
           { href: "mailto:youremail@example.com", icon: faEnvelope },
-        ].map((social, index) => (
+        ]?.map((social, index) => (
           <a
             key={index}
             href={social.href}

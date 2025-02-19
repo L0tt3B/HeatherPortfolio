@@ -83,7 +83,7 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
             {/* Desktop Links */}
             {!isMobile && (
               <div className="flex flex-wrap justify-center text-amber-400 text-lg">
-                {Object.entries(tabDisplayNames).map(([tab, displayName]) => (
+                {Object.entries(tabDisplayNames)?.map(([tab, displayName]) => (
                   <a
                     key={tab}
                     className="mx-2 relative group cursor-pointer"
