@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, 
   },
+  trailingSlash: true, // Fixes 404 errors in GitHub Pages
   output: "export", 
 };
 
