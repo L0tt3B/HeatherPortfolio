@@ -1,14 +1,11 @@
-import type { NextConfig } from "next";
-
 const isProd = process.env.NODE_ENV === "production";
 
-const nextConfig: NextConfig = {
-  assetPrefix: isProd ? "/HeatherPortfolio/" : "", 
-  images: {
-    unoptimized: true, 
-  },
-  trailingSlash: true, // Fixes 404 errors in GitHub Pages
-  output: "export", 
+const nextConfig = {
+  assetPrefix: isProd ? "/HeatherPortfolio/" : "",
+  basePath: isProd ? "/HeatherPortfolio" : "",
+  trailingSlash: true, // ✅ Required for GitHub Pages
+  images: { unoptimized: true }, // ✅ Ensures images work correctly
+  output: "export", // ✅ Ensures full static export
 };
 
 export default nextConfig;
