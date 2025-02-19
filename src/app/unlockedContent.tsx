@@ -57,7 +57,7 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
     if (component === "Contact" && footerRef.current) {
       footerRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [component]);
+  }, [component, footerRef]);
 
   const renderComponent = () => {
     switch (component) {

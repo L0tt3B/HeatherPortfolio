@@ -48,6 +48,15 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
+  // Define display names for navigation links
+  const tabDisplayNames: Record<string, string> = {
+    Contact: "Contact",
+    Animations: "Animations",
+    Art: "Illustrations",
+    AboutMe: "About",
+    Resume: "Resume",
+  };
+
   // Function to handle tab change and close the mobile menu
   const handleTabChange = (tab: string) => {
     setIsMobileMenuOpen(false); // Close the dropdown when a link is clicked
@@ -74,13 +83,13 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
             {/* Desktop Links */}
             {!isMobile && (
               <div className="flex flex-wrap justify-center text-amber-400 text-lg">
-                {["Contact", "Animations", "Art", "AboutMe", "Resume"].map((tab) => (
+                {Object.entries(tabDisplayNames).map(([tab, displayName]) => (
                   <a
                     key={tab}
                     className="mx-2 relative group cursor-pointer"
                     onClick={() => handleTabChange(tab)}
                   >
-                    {tab}
+                    {displayName}
                     <span className="block absolute left-1/2 w-0 h-[2px] bg-amber-400 group-hover:w-full transition-all duration-300 transform -translate-x-1/2 bottom-[-2px]"></span>
                   </a>
                 ))}

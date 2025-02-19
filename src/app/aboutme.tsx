@@ -26,18 +26,19 @@ const AboutMe = () => {
             className="rounded-lg shadow-md border border-white w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] object-cover"
           />
           <div className="text-center sm:text-left max-w-lg space-y-4">
-            <p>
-              <strong>Hello, my name is Heather Marie Burns.</strong> I am a British graphic designer based in England.
-              Currently, I'm studying at the University of Loughborough for my Graphic Design Degree, graduating in 2026.
-            </p>
-            <p>
-              <strong>I'd love to work with you on your next project!</strong> I have experience with the Adobe Suite,
-              Krita, and Clip Studio Paint EX.
-            </p>
-            <p>
-              <strong>In my free time,</strong> I enjoy going out to eat, watching movies, and playing games with my friends.
-              If you'd like to contact me for work (or just to say hi), feel free to reach out!
-            </p>
+          <p>
+            <strong>Hello, my name is Heather Marie Burns.</strong> I am a British graphic designer based in England.
+              Currently, I&apos;m studying at the University of Loughborough for my Graphic Design Degree, graduating in 2026.
+          </p>
+          <p>
+            <strong>I&apos;d love to work with you on your next project!</strong> I have experience with the Adobe Suite,
+            Krita, and Clip Studio Paint EX.
+          </p>
+          <p>
+            <strong>In my free time,</strong> I enjoy going out to eat, watching movies, and playing games with my friends.
+            If you&apos;d like to contact me for work (or just to say hi), feel free to reach out!
+          </p>
+
           </div>
         </div>
 

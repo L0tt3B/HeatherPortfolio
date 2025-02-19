@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 interface AnimationItem {
   src: string;
@@ -66,7 +67,7 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
         </div>
       ))}
 
-      {/* Render GIFs */}
+      {/* Render GIFs with Next.js Image */}
       {gifs.map((gif, index) => (
         <div
           key={`gif-${index}`}
@@ -84,10 +85,17 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
           }`}
         >
           <div className={`w-[40%] ${index % 2 === 0 ? "mr-auto" : "ml-auto"} transition-transform`}>
-            <img src={gif.src} alt={gif.text} className="w-full h-auto rounded-lg shadow-md" />
+            <Image
+              src={gif.src}
+              alt={gif.text}
+              width={500} // Adjust width to your needs
+              height={300} // Adjust height to your needs
+              unoptimized={true} // Necessary to allow GIFs to animate
+              className="w-full h-auto rounded-lg shadow-md"
+            />
           </div>
           <div className="w-[60%] p-6 text-center text-amber-400 text-xl">
-            <p>{gif.text}</p>
+              <p>{gif.text}</p>
           </div>
         </div>
       ))}

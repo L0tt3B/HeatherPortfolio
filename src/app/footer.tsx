@@ -5,7 +5,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 const FooterPage = () => {
   return (
     <div className="bg-black w-full max-w-full text-center text-white p-10 relative mt-auto">
-      <p className="mb-6 text-lg">Get in touch with me</p>
+      <p className="mb-6 text-lg">Get in touch with me!</p>
 
       {/* Social Media Icons Container */}
       <div className="relative flex justify-center items-center gap-12 text-3xl">
