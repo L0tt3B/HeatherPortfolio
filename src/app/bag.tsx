@@ -7,13 +7,13 @@ interface BagProps {
 
 const Bag = ({ onTabChange, onScrollToFooter }: BagProps) => {
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const imagePath = isOnline ? "/HeatherPortfolio" : "";
+  //const imagePath = isOnline ? "/HeatherPortfolio" : "";
 
   return (
     <div className="bg-yellow-900 w-full h-full rounded-lg flex flex-col justify-center items-center p-6 sm:p-4">
       <div className="w-full flex justify-center" onClick={() => onTabChange("")}>
         <Image
-          src={`${imagePath}/name.png`}
+          src={`/name.png`}
           width={650}
           height={600}
           alt="Heather Burns"
