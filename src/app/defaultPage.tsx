@@ -1,9 +1,10 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
-//import getConfig from "next/config";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = "/HeatherPortfolio/pdf.worker.min.js";
+// Ensure the worker script is correctly loaded
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
   onTabChange: (tab: string) => void; // Function to change tab
@@ -12,48 +13,40 @@ interface DefaultPageProps {
 const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isClient, setIsClient] = useState(false);
+  const [pdfBlob, setPdfBlob] = useState<string | null>(null);
 
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const imagePath = isOnline ? "/HeatherPortfolio" : "";
-  //const { publicRuntimeConfig } = getConfig();
-  //const { basePath } = publicRuntimeConfig;
-
-  const aboutImages = [`${imagePath}/heather.jpg`, `${imagePath}/heather2.jpg`, `${imagePath}/heather3.jpg`];
-  const comicPages = [1, 2, 3]; 
+  const basePath = isOnline ? "/HeatherPortfolio" : "";
+  
+  const aboutImages = [`${basePath}/heather.jpg`, `${basePath}/heather2.jpg`, `${basePath}/heather3.jpg`];
+  const comicPages = [1, 2, 3];
 
   const containerData = [
-    {
-      text: "Animations",
-      title: "Animations",
-      image: "",
-      isGif: true, 
-    },
-    {
-      text: "Comics",
-      title: "Comics",
-      image: "",
-      isComic: true, 
-    },
-    {
-      text: "Characters",
-      title: "Characters",
-      image: `${imagePath}/dragon.png`,
-      isShifted: true,
-      objectPosition: "object-top", 
-    },
-    {
-      text: "Art",
-      title: "Illustration",
-      image: `${imagePath}/women.png`,
-      isShifted: true, 
-    },
-    {
-      text: "AboutMe",
-      title: "About",
-      image: "",
-      images: aboutImages, 
-    },
+    { text: "Animations", title: "Animations", image: "", isGif: true },
+    { text: "Comics", title: "Comics", image: "", isComic: true },
+    { text: "Characters", title: "Characters", image: `${basePath}/dragon.png`, isShifted: true, objectPosition: "object-top" },
+    { text: "Art", title: "Illustration", image: `${basePath}/women.png`, isShifted: true },
+    { text: "AboutMe", title: "About", image: "", images: aboutImages },
   ];
+
+  // Ensure the component only loads on the client-side
+  useEffect(() => {
+    setIsClient(true);
+    
+    async function fetchPDF() {
+      try {
+        const response = await fetch("https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf", { mode: "cors" });
+        if (!response.ok) throw new Error("Failed to load PDF");
+        const blob = await response.blob();
+        setPdfBlob(URL.createObjectURL(blob));
+      } catch (error) {
+        console.error("Error loading PDF:", error);
+      }
+    }
+
+    fetchPDF();
+  }, []);
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -81,7 +74,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
   return (
     <div className="w-full flex flex-col gap-6 p-4 items-center">
-      {containerData?.map((item, index) => (
+      {containerData.map((item, index) => (
         <div
           key={index}
           ref={(el) => {
@@ -89,7 +82,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
           }}
           className={`relative w-full max-w-3xl h-72 rounded-lg shadow-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-out ${
             visibleIndices.includes(index) ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          } ${item.isShifted ? "mt-6" : ""}`} 
+          } ${item.isShifted ? "mt-6" : ""}`}
           onClick={() => onTabChange(item.text)}
         >
           {/* GIFs */}
@@ -97,14 +90,14 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
               <div className="w-full h-full flex">
                 <Image
-                  src={`${imagePath}/animations/bananagif.gif`}
+                  src={`${basePath}/animations/bananagif.gif`}
                   alt="Banana Cat GIF 1"
                   width={150}
                   height={150}
                   className="object-cover w-1/2 h-full"
                 />
                 <Image
-                  src={`${imagePath}/animations/bananacatsleep.gif`}
+                  src={`${basePath}/animations/bananacatsleep.gif`}
                   alt="Banana Cat GIF 2"
                   width={150}
                   height={150}
@@ -113,29 +106,33 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               </div>
             </div>
           ) : item.isComic ? (
-            // pdf
+            // PDF Viewer
             <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg">
-              <div className="flex w-full h-full">
-                {comicPages?.map((pageNumber, i) => (
-                  <div key={i} className="flex-grow h-full">
-                    <Document file={`https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
-                      <Page 
-                        pageNumber={pageNumber} 
-                        renderTextLayer={false} 
-                        renderAnnotationLayer={false} 
-                        width={330}
-                        className="h-full w-full object-cover"
-                      />
-                    </Document>
-                  </div>
-                ))}
-              </div>
+              {isClient && pdfBlob ? (
+                <div className="flex w-full h-full">
+                  {comicPages.map((pageNumber, i) => (
+                    <div key={i} className="flex-grow h-full">
+                      <Document file={pdfBlob} className="w-full h-full flex justify-center">
+                        <Page
+                          pageNumber={pageNumber}
+                          renderTextLayer={false}
+                          renderAnnotationLayer={false}
+                          width={330}
+                          className="h-full w-full object-cover"
+                        />
+                      </Document>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-black text-lg text-center mt-10">Loading PDF...</p>
+              )}
             </div>
           ) : item.images ? (
-            // About
+            // About Section
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
               <div className="w-full h-full flex">
-                {item.images?.map((src, i) => (
+                {item.images.map((src, i) => (
                   <Image
                     key={i}
                     src={src}
