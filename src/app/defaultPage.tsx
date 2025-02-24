@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.NODE_ENV === 'production' ? '/HeatherPortfolio' : ''}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = "/HeatherPortfolio/pdf.worker.min.js";
 
 interface DefaultPageProps {
   onTabChange: (tab: string) => void; // Function to change tab
@@ -118,7 +118,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               <div className="flex w-full h-full">
                 {comicPages?.map((pageNumber, i) => (
                   <div key={i} className="flex-grow h-full">
-                    <Document file={`/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
+                    <Document file={`/HeatherPortfolio/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
                       <Page 
                         pageNumber={pageNumber} 
                         renderTextLayer={false} 
