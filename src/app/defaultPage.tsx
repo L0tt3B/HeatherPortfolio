@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import getConfig from "next/config";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
   onTabChange: (tab: string) => void; // Function to change tab
@@ -14,6 +15,8 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
   const imagePath = isOnline ? "/HeatherPortfolio" : "";
+  const { publicRuntimeConfig } = getConfig();
+  const { basePath } = publicRuntimeConfig;
 
   const aboutImages = [`${imagePath}/heather.jpg`, `${imagePath}/heather2.jpg`, `${imagePath}/heather3.jpg`];
   const comicPages = [1, 2, 3]; 
@@ -115,7 +118,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               <div className="flex w-full h-full">
                 {comicPages?.map((pageNumber, i) => (
                   <div key={i} className="flex-grow h-full">
-                    <Document file={`/HeatherPortfolio/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
+                    <Document file={`${basePath}/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
                       <Page 
                         pageNumber={pageNumber} 
                         renderTextLayer={false} 
