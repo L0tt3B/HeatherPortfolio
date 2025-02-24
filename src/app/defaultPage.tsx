@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
 // Ensure the worker script is correctly loaded
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://l0tt3b.github.io/HeatherPortfolio/pdf.worker.min.js`;
 
 interface DefaultPageProps {
   onTabChange: (tab: string) => void; // Function to change tab
