@@ -15,8 +15,8 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
   const imagePath = isOnline ? "/HeatherPortfolio" : "";
-  const { publicRuntimeConfig } = getConfig();
-  const { basePath } = publicRuntimeConfig;
+  //const { publicRuntimeConfig } = getConfig();
+  //const { basePath } = publicRuntimeConfig;
 
   const aboutImages = [`${imagePath}/heather.jpg`, `${imagePath}/heather2.jpg`, `${imagePath}/heather3.jpg`];
   const comicPages = [1, 2, 3]; 
