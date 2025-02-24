@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import getConfig from "next/config";
+//import getConfig from "next/config";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
