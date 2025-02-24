@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-// Use the CDN-hosted worker script (or use your own absolute URL)
+// Use the CDN-hosted worker script
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
@@ -30,26 +30,21 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
     { text: "AboutMe", title: "About", image: "", images: aboutImages },
   ];
 
-  // Ensure the component only loads on the client-side
   useEffect(() => {
     setIsClient(true);
 
     async function fetchPDF() {
       try {
-        // Note: setting Accept header can help the server know what you expect.
         const response = await fetch("https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf", {
           mode: "cors",
-          headers: {
-            "Accept": "application/pdf"
-          }
+          headers: { "Accept": "application/pdf" }
         });
-
-        // Log the Content-Type header to see if it's returning "application/pdf"
         console.log("PDF Content-Type:", response.headers.get("Content-Type"));
-
         if (!response.ok) throw new Error("Failed to load PDF");
         const blob = await response.blob();
-        setPdfBlob(URL.createObjectURL(blob));
+        const blobUrl = URL.createObjectURL(blob);
+        console.log("PDF Blob URL:", blobUrl);
+        setPdfBlob(blobUrl);
       } catch (error) {
         console.error("Error loading PDF:", error);
       }
