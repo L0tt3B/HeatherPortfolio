@@ -4,7 +4,9 @@ import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
 // Use the CDN-hosted worker script
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+const basePath = isOnline ? "/HeatherPortfolio" : "";
+pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
   onTabChange: (tab: string) => void;
@@ -16,8 +18,8 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const [isClient, setIsClient] = useState(false);
   const [pdfBlob, setPdfBlob] = useState<string | null>(null);
 
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const basePath = isOnline ? "/HeatherPortfolio" : "";
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  //const basePath = isOnline ? "/HeatherPortfolio" : "";
   
   const aboutImages = [`${basePath}/heather.jpg`, `${basePath}/heather2.jpg`, `${basePath}/heather3.jpg`];
   const comicPages = [1, 2, 3];
