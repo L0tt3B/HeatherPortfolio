@@ -13,9 +13,12 @@
 
 // export default nextConfig;
 
+// next.config.js
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  basePath: process.env.NODE_ENV === 'production' ? '/HeatherPortfolio' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/HeatherPortfolio/' : '',
+  basePath: isProd ? '/HeatherPortfolio' : '',
+  assetPrefix: isProd ? '/HeatherPortfolio/' : '',
   images: {
     unoptimized: true, // Necessary for static exports
   },
