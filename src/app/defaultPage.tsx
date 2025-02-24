@@ -3,11 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-// Ensure the worker script is correctly loaded
-pdfjs.GlobalWorkerOptions.workerSrc = `https://l0tt3b.github.io/HeatherPortfolio/pdf.worker.min.js`;
+// Use the CDN-hosted worker script (or use your own absolute URL)
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
-  onTabChange: (tab: string) => void; // Function to change tab
+  onTabChange: (tab: string) => void;
 }
 
 const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
@@ -33,10 +33,20 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   // Ensure the component only loads on the client-side
   useEffect(() => {
     setIsClient(true);
-    
+
     async function fetchPDF() {
       try {
-        const response = await fetch("https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf", { mode: "cors" });
+        // Note: setting Accept header can help the server know what you expect.
+        const response = await fetch("https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf", {
+          mode: "cors",
+          headers: {
+            "Accept": "application/pdf"
+          }
+        });
+
+        // Log the Content-Type header to see if it's returning "application/pdf"
+        console.log("PDF Content-Type:", response.headers.get("Content-Type"));
+
         if (!response.ok) throw new Error("Failed to load PDF");
         const blob = await response.blob();
         setPdfBlob(URL.createObjectURL(blob));
@@ -44,7 +54,6 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
         console.error("Error loading PDF:", error);
       }
     }
-
     fetchPDF();
   }, []);
 
@@ -64,9 +73,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
     });
 
     observerRefs.current.forEach((ref) => {
-      if (ref) {
-        observer.observe(ref);
-      }
+      if (ref) observer.observe(ref);
     });
 
     return () => observer.disconnect();
@@ -77,9 +84,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
       {containerData.map((item, index) => (
         <div
           key={index}
-          ref={(el) => {
-            observerRefs.current[index] = el;
-          }}
+          ref={(el) => { observerRefs.current[index] = el; }}
           className={`relative w-full max-w-3xl h-72 rounded-lg shadow-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-out ${
             visibleIndices.includes(index) ? "opacity-100 scale-100" : "opacity-0 scale-95"
           } ${item.isShifted ? "mt-6" : ""}`}
