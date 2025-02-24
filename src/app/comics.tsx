@@ -152,7 +152,7 @@ const Comics = ({ comics }: ComicsProps) => {
               ❮
             </button>
 
-            <Document file={selectedComic} className="w-full flex justify-center">
+            <Document file={`/HeatherPortfolio/comics/${selectedComic}`} className="w-full flex justify-center">
               <Page
                 pageNumber={pageNumber[currentComicIndex]}
                 renderTextLayer={false}
