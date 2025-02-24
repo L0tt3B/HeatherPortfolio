@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-// Use the CDN-hosted worker script
+// Set up local worker using the basePath
 const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
 const basePath = isOnline ? "/HeatherPortfolio" : "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
@@ -18,10 +18,11 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const [isClient, setIsClient] = useState(false);
   const [pdfBlob, setPdfBlob] = useState<string | null>(null);
 
-  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  //const basePath = isOnline ? "/HeatherPortfolio" : "";
-  
-  const aboutImages = [`${basePath}/heather.jpg`, `${basePath}/heather2.jpg`, `${basePath}/heather3.jpg`];
+  const aboutImages = [
+    `${basePath}/heather.jpg`,
+    `${basePath}/heather2.jpg`,
+    `${basePath}/heather3.jpg`
+  ];
   const comicPages = [1, 2, 3];
 
   const containerData = [
@@ -37,7 +38,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
     async function fetchPDF() {
       try {
-        const response = await fetch("https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf", {
+        const response = await fetch(`https://l0tt3b.github.io${basePath}/comics/dnd-1.pdf`, {
           mode: "cors",
           headers: { "Accept": "application/pdf" }
         });
@@ -72,7 +73,6 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
     observerRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
-
     return () => observer.disconnect();
   }, []);
 
@@ -108,19 +108,19 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               </div>
             </div>
           ) : item.isComic ? (
-            // PDF Viewer
-            <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg">
+            // PDF Viewer (with rounded container and overflow-hidden)
+            <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg overflow-hidden">
               {isClient && pdfBlob ? (
                 <div className="flex w-full h-full">
-                  {comicPages.map((pageNumber, i) => (
+                  {comicPages.map((page, i) => (
                     <div key={i} className="flex-grow h-full">
                       <Document file={pdfBlob} className="w-full h-full flex justify-center">
                         <Page
-                          pageNumber={pageNumber}
+                          pageNumber={page}
                           renderTextLayer={false}
                           renderAnnotationLayer={false}
                           width={330}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-contain"
                         />
                       </Document>
                     </div>

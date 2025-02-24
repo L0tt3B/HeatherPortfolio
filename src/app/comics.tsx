@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+"use client";
+import { useState, useEffect, useRef } from "react"; 
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
+// Set up worker using the local basePath
 const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
 const basePath = isOnline ? "/HeatherPortfolio" : "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
@@ -13,8 +15,8 @@ interface ComicsProps {
 
 const Comics = ({ comics }: ComicsProps) => {
   const [selectedComic, setSelectedComic] = useState<string | null>(null);
-  const [pageNumber, setPageNumber] = useState<number[]>(comics?.map(() => 1)); // Track page per comic
-  const [numPages, setNumPages] = useState<number[]>(comics?.map(() => 1));
+  const [pageNumber, setPageNumber] = useState<number[]>(comics.map(() => 1));
+  const [numPages, setNumPages] = useState<number[]>(comics.map(() => 1));
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentComicIndex, setCurrentComicIndex] = useState<number | null>(null);
 
@@ -39,15 +41,14 @@ const Comics = ({ comics }: ComicsProps) => {
     observerRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
-
     return () => observer.disconnect();
   }, []);
 
   const handleDocumentLoadSuccess = (index: number, { numPages }: { numPages: number }) => {
     setNumPages((prev) => {
-      const updatedPages = [...prev];
-      updatedPages[index] = numPages;
-      return updatedPages;
+      const updated = [...prev];
+      updated[index] = numPages;
+      return updated;
     });
   };
 
@@ -59,23 +60,19 @@ const Comics = ({ comics }: ComicsProps) => {
 
   const changePage = (index: number, direction: number) => {
     setPageNumber((prev) => {
-      const updatedPages = [...prev];
-      updatedPages[index] = Math.max(1, Math.min(numPages[index], updatedPages[index] + direction));
-      return updatedPages;
+      const updated = [...prev];
+      updated[index] = Math.max(1, Math.min(numPages[index], updated[index] + direction));
+      return updated;
     });
   };
 
   return (
     <div className="w-full flex flex-col gap-12 p-6">
-      {comics?.map((comic, index) => (
+      {comics.map((comic, index) => (
         <div
           key={index}
-          ref={(el) => {
-            observerRefs.current[index] = el;
-          }}
-          className={`relative w-full flex ${
-            index % 2 === 0 ? "justify-start" : "justify-end"
-          } items-center bg-yellow-900 rounded-lg shadow-lg p-6 min-h-[200px] transition-all duration-700 ease-out ${
+          ref={(el) => { observerRefs.current[index] = el; }}
+          className={`relative w-full flex ${index % 2 === 0 ? "justify-start" : "justify-end"} items-center bg-yellow-900 rounded-lg shadow-lg p-6 min-h-[200px] transition-all duration-700 ease-out ${
             visibleIndices.includes(index)
               ? "opacity-100 translate-x-0"
               : index % 2 === 0
@@ -83,7 +80,6 @@ const Comics = ({ comics }: ComicsProps) => {
               : "opacity-0 translate-x-10"
           }`}
         >
-          {/* Comic Thumbnail with Arrows Inside */}
           <div className="relative w-[40%] cursor-pointer" onClick={() => openFullscreen(index)}>
             {/* Left Arrow */}
             <button
@@ -105,7 +101,13 @@ const Comics = ({ comics }: ComicsProps) => {
               className="border-2 border-white rounded-lg overflow-hidden"
               onLoadSuccess={(e) => handleDocumentLoadSuccess(index, e)}
             >
-              <Page pageNumber={pageNumber[index]} renderTextLayer={false} renderAnnotationLayer={false} width={300} />
+              <Page
+                pageNumber={pageNumber[index]}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                width={300}
+                className="object-contain"
+              />
             </Document>
 
             {/* Right Arrow */}
@@ -123,7 +125,6 @@ const Comics = ({ comics }: ComicsProps) => {
             </button>
           </div>
 
-          {/* Comic Info */}
           <div className="w-[60%] p-6 text-center text-amber-400 text-xl">
             <p>{comic.title}</p>
           </div>
@@ -140,10 +141,8 @@ const Comics = ({ comics }: ComicsProps) => {
           >
             ✖ Close
           </button>
-
-          {/* Comic Viewer - Centered, Responsive */}
           <div className="relative w-full max-w-3xl sm:max-w-4xl flex items-center justify-center">
-            {/* Left Arrow for Previous Page */}
+            {/* Left Arrow */}
             <button
               className={`absolute left-4 text-white text-3xl bg-gray-700/70 hover:bg-gray-600/80 px-4 py-2 rounded-full ${
                 pageNumber[currentComicIndex] === 1 ? "opacity-50 cursor-not-allowed" : ""
@@ -153,17 +152,16 @@ const Comics = ({ comics }: ComicsProps) => {
             >
               ❮
             </button>
-
-            <Document file={`/HeatherPortfolio/comics/${selectedComic}`} className="w-full flex justify-center">
+            <Document file={selectedComic} className="w-full flex justify-center">
               <Page
                 pageNumber={pageNumber[currentComicIndex]}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
                 width={500}
+                className="object-contain"
               />
             </Document>
-
-            {/* Right Arrow for Next Page */}
+            {/* Right Arrow */}
             <button
               className={`absolute right-4 text-white text-3xl bg-gray-700/70 hover:bg-gray-600/80 px-4 py-2 rounded-full ${
                 pageNumber[currentComicIndex] === numPages[currentComicIndex] ? "opacity-50 cursor-not-allowed" : ""
@@ -174,8 +172,6 @@ const Comics = ({ comics }: ComicsProps) => {
               ❯
             </button>
           </div>
-
-          {/* Pagination Controls */}
           <div className="flex justify-between items-center mt-4 w-full max-w-md">
             <span className="text-white">{`Page ${pageNumber[currentComicIndex]} of ${numPages[currentComicIndex] || "?"}`}</span>
           </div>
