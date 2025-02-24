@@ -10,7 +10,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("Art");
   const linksRef = useRef<HTMLDivElement | null>(null);
 
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
   //const imagePath = isOnline ? "/HeatherPortfolio" : "";
 
   const footerRef = useRef<HTMLDivElement>(null);
