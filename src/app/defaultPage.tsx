@@ -115,7 +115,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               <div className="flex w-full h-full">
                 {comicPages?.map((pageNumber, i) => (
                   <div key={i} className="flex-grow h-full">
-                    <Document file={`${imagePath}/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
+                    <Document file={`/HeatherPortfolio/comics/dnd-1.pdf`} className="w-full h-full flex justify-center">
                       <Page 
                         pageNumber={pageNumber} 
                         renderTextLayer={false} 
