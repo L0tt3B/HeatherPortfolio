@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react"; 
+import { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -8,6 +8,17 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
 const basePath = isOnline ? "/HeatherPortfolio" : "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
+
+// Responsive hook to get window width
+function useWindowWidth() {
+  const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+}
 
 interface ComicsProps {
   comics: { src: string; title: string }[];
@@ -22,6 +33,10 @@ const Comics = ({ comics }: ComicsProps) => {
 
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
+  const windowWidth = useWindowWidth();
+
+  // Compute a responsive page width (max 500px, but 90% of viewport if smaller)
+  const responsivePageWidth = Math.min(500, windowWidth * 0.9);
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -133,7 +148,7 @@ const Comics = ({ comics }: ComicsProps) => {
 
       {/* Fullscreen Comic Viewer */}
       {selectedComic && isFullscreen && currentComicIndex !== null && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex flex-col items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center z-50 p-4">
           {/* Close Button */}
           <button
             className="absolute top-4 right-4 bg-gray-800 px-4 py-2 rounded-md text-white hover:bg-gray-700 transition"
@@ -141,7 +156,9 @@ const Comics = ({ comics }: ComicsProps) => {
           >
             ✖ Close
           </button>
-          <div className="relative w-full max-w-3xl sm:max-w-4xl flex items-center justify-center">
+
+          {/* Comic Viewer - Responsive container */}
+          <div className="relative w-full max-w-[90vw] max-h-[90vh] flex items-center justify-center">
             {/* Left Arrow */}
             <button
               className={`absolute left-4 text-white text-3xl bg-gray-700/70 hover:bg-gray-600/80 px-4 py-2 rounded-full ${
@@ -152,15 +169,17 @@ const Comics = ({ comics }: ComicsProps) => {
             >
               ❮
             </button>
+
             <Document file={selectedComic} className="w-full flex justify-center">
               <Page
                 pageNumber={pageNumber[currentComicIndex]}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
-                width={500}
+                width={responsivePageWidth}
                 className="object-contain"
               />
             </Document>
+
             {/* Right Arrow */}
             <button
               className={`absolute right-4 text-white text-3xl bg-gray-700/70 hover:bg-gray-600/80 px-4 py-2 rounded-full ${
@@ -172,8 +191,12 @@ const Comics = ({ comics }: ComicsProps) => {
               ❯
             </button>
           </div>
+
+          {/* Pagination Controls */}
           <div className="flex justify-between items-center mt-4 w-full max-w-md">
-            <span className="text-white">{`Page ${pageNumber[currentComicIndex]} of ${numPages[currentComicIndex] || "?"}`}</span>
+            <span className="text-white">
+              {`Page ${pageNumber[currentComicIndex]} of ${numPages[currentComicIndex] || "?"}`}
+            </span>
           </div>
         </div>
       )}
