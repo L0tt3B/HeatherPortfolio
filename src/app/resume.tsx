@@ -8,7 +8,7 @@ const Resume = () => {
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
   const basePath = isOnline ? "/HeatherPortfolio" : "";
   // Construct an absolute URL for the PDF.
-  const pdfURL = `https://l0tt3b.github.io${basePath}/CV.pdf`;
+  const pdfURL = `https://l0tt3b.github.io${basePath}/comics/CV.pdf`;
 
   // Set PDF worker dynamically using the basePath.
   useEffect(() => {
