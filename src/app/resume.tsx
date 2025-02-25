@@ -3,9 +3,14 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
+const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+const basePath = isOnline ? "/HeatherPortfolio" : "";
+pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
+
+
 const Resume = () => {
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const pdfPath = isOnline ? "/HeatherPortfolio/CV.pdf" : "/comics/CV.pdf";
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  //const pdfPath = isOnline ? "/HeatherPortfolio/CV.pdf" : "/comics/CV.pdf";
   const [pageNumber, setPageNumber] = useState(1);
   const totalPages = 2;
   const [windowWidth, setWindowWidth] = useState<number | null>(null);
@@ -38,7 +43,7 @@ const Resume = () => {
       {/* Resume Download Button */}
       <div className="text-white text-lg mt-4 sm:mt-3 text-center">
         <a
-          href={pdfPath}
+          href={basePath}
           download
           className="bg-yellow-800/50 px-6 py-3 font-bold text-yellow-400 rounded-xl border-2 border-yellow-700 hover:bg-yellow-900/80 transition duration-150"
         >
@@ -49,7 +54,7 @@ const Resume = () => {
       {/* Resume Viewer */}
       <div className="mt-10 w-full flex flex-col items-center">
         <div className="relative border-2 border-white rounded-xl shadow-lg p-3 bg-black/20">
-          <Document file={pdfPath} className="w-full flex justify-center">
+          <Document file={basePath} className="w-full flex justify-center">
             <Page 
               pageNumber={pageNumber} 
               renderTextLayer={false} 
