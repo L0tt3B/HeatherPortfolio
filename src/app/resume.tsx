@@ -6,19 +6,18 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 const Resume = () => {
   // Determine if we're online (production) or running locally.
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  // In production, our assets are served under the "/HeatherPortfolio" base path.
   const basePath = isOnline ? "/HeatherPortfolio" : "";
-  // PDF file path uses the basePath.
-  const pdfPath = `${basePath}/CV.pdf`;
-
-  const [pageNumber, setPageNumber] = useState(1);
-  const totalPages = 2;
-  const [windowWidth, setWindowWidth] = useState<number | null>(null);
+  // In production, our assets are served under "/HeatherPortfolio"
+  const pdfPath = isOnline ? `${basePath}/CV.pdf` : "/comics/CV.pdf";
 
   // Set PDF worker dynamically using the basePath
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
   }, [basePath]);
+
+  const [pageNumber, setPageNumber] = useState(1);
+  const totalPages = 2;
+  const [windowWidth, setWindowWidth] = useState<number | null>(null);
 
   // Update window width for responsiveness
   useEffect(() => {
@@ -28,10 +27,10 @@ const Resume = () => {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // Responsive PDF width scaling
+  // Compute a responsive PDF width
   const getPDFWidth = () => {
-    if (!windowWidth) return 700; // Default width
-    if (windowWidth < 400) return 280; // Small screens
+    if (!windowWidth) return 700; // Default width if not yet measured
+    if (windowWidth < 400) return 280; // Very small screens
     if (windowWidth < 640) return 340; // Mobile
     if (windowWidth < 768) return 400; // Small tablets
     if (windowWidth < 1024) return 500; // Medium tablets
