@@ -3,24 +3,24 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
-const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-const basePath = isOnline ? "/HeatherPortfolio" : "";
-pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
-
-
 const Resume = () => {
-  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  //const pdfPath = isOnline ? "/HeatherPortfolio/CV.pdf" : "/comics/CV.pdf";
+  // Determine if we're online (production) or running locally.
+  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  // In production, our assets are served under the "/HeatherPortfolio" base path.
+  const basePath = isOnline ? "/HeatherPortfolio" : "";
+  // PDF file path uses the basePath.
+  const pdfPath = `${basePath}/CV.pdf`;
+
   const [pageNumber, setPageNumber] = useState(1);
   const totalPages = 2;
   const [windowWidth, setWindowWidth] = useState<number | null>(null);
 
-  // ✅ Dynamically set PDF worker
+  // Set PDF worker dynamically using the basePath
   useEffect(() => {
-    pdfjs.GlobalWorkerOptions.workerSrc = `${window.location.origin}/pdf.worker.min.js`;
-  }, []);
+    pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
+  }, [basePath]);
 
-  // ✅ Update window width for responsiveness
+  // Update window width for responsiveness
   useEffect(() => {
     const updateWidth = () => setWindowWidth(window.innerWidth);
     updateWidth(); // Set initial width
@@ -28,14 +28,14 @@ const Resume = () => {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // ✅ Responsive PDF width scaling
+  // Responsive PDF width scaling
   const getPDFWidth = () => {
     if (!windowWidth) return 700; // Default width
     if (windowWidth < 400) return 280; // Small screens
     if (windowWidth < 640) return 340; // Mobile
     if (windowWidth < 768) return 400; // Small tablets
     if (windowWidth < 1024) return 500; // Medium tablets
-    return 700; // Default large screen
+    return 700; // Large screens
   };
 
   return (
@@ -43,7 +43,7 @@ const Resume = () => {
       {/* Resume Download Button */}
       <div className="text-white text-lg mt-4 sm:mt-3 text-center">
         <a
-          href={basePath}
+          href={pdfPath}
           download
           className="bg-yellow-800/50 px-6 py-3 font-bold text-yellow-400 rounded-xl border-2 border-yellow-700 hover:bg-yellow-900/80 transition duration-150"
         >
@@ -54,13 +54,13 @@ const Resume = () => {
       {/* Resume Viewer */}
       <div className="mt-10 w-full flex flex-col items-center">
         <div className="relative border-2 border-white rounded-xl shadow-lg p-3 bg-black/20">
-          <Document file={basePath} className="w-full flex justify-center">
+          <Document file={pdfPath} className="w-full flex justify-center">
             <Page 
               pageNumber={pageNumber} 
               renderTextLayer={false} 
               renderAnnotationLayer={false} 
               width={getPDFWidth()}
-              className="rounded-lg shadow-lg" // ✅ Rounded PDF edges with shadow
+              className="rounded-lg shadow-lg"
             />
           </Document>
         </div>
