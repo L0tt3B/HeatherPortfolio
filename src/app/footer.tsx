@@ -13,9 +13,9 @@ const FooterPage = () => {
         <div className="absolute top-1/2 left-0 w-full h-[2px] bg-white opacity-90"></div>
 
         {[
-          { href: "https://www.instagram.com/yourusername", icon: faInstagram },
-          { href: "https://www.linkedin.com/in/yourusername", icon: faLinkedin },
-          { href: "mailto:youremail@example.com", icon: faEnvelope },
+          { href: "https://www.instagram.com/_heatburns_/", icon: faInstagram },
+          { href: "https://www.linkedin.com/in/heather-burns-6169ba24b/", icon: faLinkedin },
+          { href: "mailto:heather@burns.net", icon: faEnvelope },
         ]?.map((social, index) => (
           <a
             key={index}
