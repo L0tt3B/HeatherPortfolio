@@ -25,6 +25,10 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
     { src: `${imagePath}/comics/dnd-1.pdf`, title: "Fukushima's Vengeance" }
   ];
 
+  const comicsImg = [
+    { src: `${imagePath}/comics/Farewell.webp`, title: "Farewell" }
+  ];
+
   const characters = [
     `${imagePath}/dragon.png`,
     `${imagePath}/kai.png`,
@@ -39,7 +43,8 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
   ];
 
   const videos = [
-    { src: `${imagePath}/Thepitch.mp4`, text: "The Pitch - A short animated film" }
+    { src: `${imagePath}/Thepitch.mp4`, text: "The Pitch - A short animated film" },
+    { src: `${imagePath}/animations/Fp.mp4`, text: "Farewell" }
   ];
   
   const gifs = [
@@ -49,7 +54,7 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
   
 
   useEffect(() => {
-    const timeout = setTimeout(() => setIsVisible(true), 50); // Delays the animation slightly
+    const timeout = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(timeout);
   }, [component]);
 
@@ -62,7 +67,7 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
   const renderComponent = () => {
     switch (component) {
       case "Comics":
-      return <Comics comics={comicsList} />;
+      return <Comics comics={comicsList} images={comicsImg}/>;
       case "Animations":
         return <Animations videos={videos} gifs={gifs}/>;
       case "Art":

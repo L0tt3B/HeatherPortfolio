@@ -4,13 +4,10 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
 const Resume = () => {
-  // Determine if we're in production or local.
   const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
   const basePath = isOnline ? "/HeatherPortfolio" : "";
-  // Construct an absolute URL for the PDF.
   const pdfURL = `https://l0tt3b.github.io${basePath}/comics/CV.pdf`;
 
-  // Set PDF worker dynamically using the basePath.
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
   }, [basePath]);
@@ -20,7 +17,6 @@ const Resume = () => {
   const [windowWidth, setWindowWidth] = useState<number | null>(null);
   const [pdfBlob, setPdfBlob] = useState<string | null>(null);
 
-  // Fetch the resume PDF as a blob.
   useEffect(() => {
     async function fetchPDF() {
       try {
@@ -28,20 +24,17 @@ const Resume = () => {
           mode: "cors",
           headers: { "Accept": "application/pdf" }
         });
-        console.log("Resume PDF Content-Type:", response.headers.get("Content-Type"));
         if (!response.ok) throw new Error("Failed to load PDF");
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
-        console.log("Resume PDF Blob URL:", blobUrl);
         setPdfBlob(blobUrl);
       } catch (error) {
-        console.error("Error loading resume PDF:", error);
+        console.error("Error loading resume:", error);
       }
     }
     fetchPDF();
   }, [pdfURL]);
 
-  // Update window width for responsiveness.
   useEffect(() => {
     const updateWidth = () => setWindowWidth(window.innerWidth);
     updateWidth();
@@ -49,7 +42,6 @@ const Resume = () => {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // Compute a responsive PDF width.
   const getPDFWidth = () => {
     if (!windowWidth) return 700;
     if (windowWidth < 400) return 280;
@@ -61,7 +53,6 @@ const Resume = () => {
 
   return (
     <div className="bg-yellow-950 font-sans w-full min-h-screen flex flex-col items-center p-6 sm:p-4">
-      {/* Resume Download Button */}
       <div className="text-white text-lg mt-4 sm:mt-3 text-center">
         <a
           href={pdfURL}
@@ -71,8 +62,6 @@ const Resume = () => {
           PDF RESUME DOWNLOAD
         </a>
       </div>
-
-      {/* Resume Viewer */}
       <div className="mt-10 w-full flex flex-col items-center">
         <div className="relative border-2 border-white rounded-xl shadow-lg p-3 bg-black/20">
           {pdfBlob ? (
@@ -90,7 +79,6 @@ const Resume = () => {
           )}
         </div>
 
-        {/* Pagination Controls */}
         <div className="flex justify-between items-center mt-4 w-full max-w-lg px-4">
           <button
             className={`px-4 py-2 bg-yellow-800 text-white rounded-md transition ${

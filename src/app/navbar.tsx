@@ -3,7 +3,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import TopNavbar from "./topNavbar"; // Mobile dropdown menu
+import TopNavbar from "./topNavbar";
 
 type NavbarProps = {
   targetRef: React.RefObject<HTMLDivElement | null>;
@@ -34,21 +34,19 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
     return () => observer.disconnect();
   }, [targetRef]);
 
-  // Detect window size and toggle mobile view
   useEffect(() => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
       if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false); // Close mobile menu when switching to desktop
+        setIsMobileMenuOpen(false);
       }
     };
 
-    checkScreenSize(); // Initial check
+    checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Define display names for navigation links
   const tabDisplayNames: Record<string, string> = {
     Contact: "Contact",
     Animations: "Animations",
@@ -57,9 +55,8 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
     Resume: "Resume",
   };
 
-  // Function to handle tab change and close the mobile menu
   const handleTabChange = (tab: string) => {
-    setIsMobileMenuOpen(false); // Close the dropdown when a link is clicked
+    setIsMobileMenuOpen(false); 
     onTabChange(tab);
     if (tab === "Contact") onScrollToFooter();
   };
@@ -75,12 +72,10 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
             transition={{ duration: 0.3 }}
             className="fixed top-0 left-0 w-full bg-yellow-900 shadow-lg p-4 flex items-center justify-between z-50"
           >
-            {/* Logo */}
             <div className="ml-4 flex justify-start w-36" onClick={() => handleTabChange("")}>
               <Image src={`${imagePath}/name.png`} width={100} height={80} alt="Heather Burns" className="w-full h-auto cursor-pointer" />
             </div>
 
-            {/* Desktop Links */}
             {!isMobile && (
               <div className="flex flex-wrap justify-center text-amber-400 text-lg">
                 {Object.entries(tabDisplayNames)?.map(([tab, displayName]) => (
@@ -96,7 +91,6 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
               </div>
             )}
 
-            {/* Mobile Menu Button */}
             {isMobile && (
               <button className="text-amber-400 text-2xl" onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
                 <FontAwesomeIcon icon={faBars} />
@@ -106,7 +100,6 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
         )}
       </AnimatePresence>
 
-      {/* Mobile Navbar (Dropdown) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <TopNavbar onTabChange={handleTabChange} />

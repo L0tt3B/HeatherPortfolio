@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
-// Set up local worker using the basePath
 const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
 const basePath = isOnline ? "/HeatherPortfolio" : "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
@@ -87,7 +86,6 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
           } ${item.isShifted ? "mt-6" : ""}`}
           onClick={() => onTabChange(item.text)}
         >
-          {/* GIFs */}
           {item.isGif ? (
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
               <div className="w-full h-full flex">
@@ -108,7 +106,6 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               </div>
             </div>
           ) : item.isComic ? (
-            // PDF Viewer (with rounded container and overflow-hidden)
             <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg overflow-hidden">
               {isClient && pdfBlob ? (
                 <div className="flex w-full h-full">
@@ -131,7 +128,6 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               )}
             </div>
           ) : item.images ? (
-            // About Section
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
               <div className="w-full h-full flex">
                 {item.images.map((src, i) => (
@@ -155,8 +151,6 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               className={`absolute inset-0 w-full h-full ${item.objectPosition || ""}`}
             />
           )}
-
-          {/* Title overlay */}
           <div className="absolute bottom-0 w-full text-center bg-black/50 py-2">
             <p className="text-white text-4xl font-bold uppercase drop-shadow-[10px_0px_10px_rgba(0,0,0,0.9)]">
               {item.title}

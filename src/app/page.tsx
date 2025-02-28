@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import UnlockedContent from "./unlockedContent"; // Import unlocked content
-import Bag from "./bag"; // Import Bag component
-import Image from "next/image"; // Import Next.js Image component
+import UnlockedContent from "./unlockedContent";
+import Bag from "./bag";
+import Image from "next/image";
 import Navbar from "./navbar";
 
 export default function Home() {
@@ -23,7 +23,6 @@ export default function Home() {
 
   const handleTabChange = (tab: string) => {
     if (tab === "Contact" && footerRef.current) {
-      //setIsOpen(true);
       setTimeout(() => {
         if (footerRef.current) {
           footerRef.current.scrollIntoView({ behavior: "smooth" });
@@ -35,7 +34,6 @@ export default function Home() {
     setIsOpen(true);
   };
 
-  // Automatically scroll to unlocked content when it opens
   useEffect(() => {
     if (isOpen) {
       window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
@@ -49,13 +47,11 @@ export default function Home() {
         onTabChange={handleTabChange}
         onScrollToFooter={() => footerRef.current?.scrollIntoView({ behavior: "smooth" })}
       />
-      {/* Bag section - 80% height and 100% width */}
       <div className="w-full h-[80vh] relative" ref={linksRef}>
         <Bag 
           onTabChange={handleTabChange}
           onScrollToFooter={() => footerRef.current?.scrollIntoView({ behavior: "smooth" })} 
         />
-        {/* Buckle button with image */}
         <button
           onClick={toggleBag}
           className="absolute bottom-[-4rem] left-1/2 transform -translate-x-1/2 border-none bg-transparent focus:outline-none z-10"
@@ -69,10 +65,7 @@ export default function Home() {
           />
         </button>
       </div>
-
-      {/* Main page content (fullscreen) */}
       <div className={`bg-orange-900 flex flex-col items-center justify-center w-full h-screen ${isOpen ? "" : "hidden"}`}>
-        {/* Unlocked content section */}
         <div className="w-full min-h-screen scrollbar-hide">
           <UnlockedContent component={activeTab} footerRef={footerRef} onTabChange={handleTabChange} />
         </div>

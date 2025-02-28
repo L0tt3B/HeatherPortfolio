@@ -7,7 +7,6 @@ const AboutMe = () => {
   return (
     <div className="bg-yellow-950 font-sans w-full min-h-fit transition-transform duration-700 ease-in-out p-4 mb-12 sm:p-6 flex flex-col items-center">
       <div className="w-full max-w-4xl text-white text-lg">
-        {/* Header Section */}
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold font-[customfont] flex items-center justify-center">
             <span className="flex-grow border-t border-white mx-4"></span>
@@ -16,7 +15,7 @@ const AboutMe = () => {
           </h2>
         </div>
 
-        {/* About Section */}
+        {/* About */}
         <div className="flex flex-col sm:flex-row items-center mx-auto space-y-6 sm:space-y-0 sm:space-x-8">
           <Image
             src={`${imagePath}/heather.jpg`}
@@ -42,7 +41,7 @@ const AboutMe = () => {
           </div>
         </div>
 
-        {/* Softwares Section */}
+        {/* Softwares */}
         <div className="border-dotted bg-black/30 border-yellow-500 border-2 mt-12 p-6 rounded-lg flex flex-col items-center w-full max-w-4xl">
           <h2 className="text-2xl font-bold text-white flex items-center justify-center">
             <span className="flex-grow border-t border-white mx-4"></span>
@@ -50,7 +49,6 @@ const AboutMe = () => {
             <span className="flex-grow border-t border-white mx-4"></span>
           </h2>
 
-          {/* Software Icons Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mt-6 w-full max-w-lg">
             {[
               { src: "AI2.png", width: 110, height: 80 },

@@ -41,7 +41,6 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
 
   return (
     <div className="w-full flex flex-col gap-12 p-8">
-      {/* Render Videos */}
       {videos?.map((video, index) => (
         <div
           key={`video-${index}`}
@@ -67,7 +66,6 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
         </div>
       ))}
 
-      {/* Render GIFs with Next.js Image */}
       {gifs?.map((gif, index) => (
         <div
           key={`gif-${index}`}
@@ -88,9 +86,9 @@ const Animations = ({ videos, gifs }: AnimationProps) => {
             <Image
               src={gif.src}
               alt={gif.text}
-              width={500} // Adjust width to your needs
-              height={300} // Adjust height to your needs
-              unoptimized={true} // Necessary to allow GIFs to animate
+              width={500} 
+              height={300} 
+              unoptimized={true} 
               className="w-full h-auto rounded-lg shadow-md"
             />
           </div>

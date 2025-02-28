@@ -6,8 +6,6 @@ interface BagProps {
 }
 
 const Bag = ({ onTabChange, onScrollToFooter }: BagProps) => {
-  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  //const imagePath = isOnline ? "/HeatherPortfolio" : "";
 
   return (
     <div className="bg-yellow-900 w-full h-full rounded-lg flex flex-col justify-center items-center p-6 sm:p-4">
