@@ -22,13 +22,24 @@ export default function Home() {
   };
 
   const handleTabChange = (tab: string) => {
-    if (tab === "Contact" && footerRef.current) {
-      setTimeout(() => {
+    if (tab === "Contact") {
+      if(!isOpen){
+        setActiveTab("Default");
+        setIsOpen(true);
+
+        setTimeout(() => {
+          if (footerRef.current) {
+            footerRef.current.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+      else{
         if (footerRef.current) {
           footerRef.current.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100);
-      return;    }
+      }
+      return;
+    }
 
     setActiveTab(tab);
     setIsOpen(true);
