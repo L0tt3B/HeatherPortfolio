@@ -25,10 +25,10 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const comicPages = [1, 2, 3];
 
   const containerData = [
+    { text: "Art", title: "Illustration", image: `${basePath}/women.png`, isShifted: true },
     { text: "Animations", title: "Animations", image: "", isGif: true },
     { text: "Comics", title: "Comics", image: "", isComic: true },
     { text: "Characters", title: "Characters", image: `${basePath}/dragon.png`, isShifted: true, objectPosition: "object-top" },
-    { text: "Art", title: "Illustration", image: `${basePath}/women.png`, isShifted: true },
     { text: "AboutMe", title: "About", image: "", images: aboutImages },
   ];
 

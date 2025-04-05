@@ -7,7 +7,7 @@ import Navbar from "./navbar";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Art");
+  const [activeTab, setActiveTab] = useState("Default");
   const linksRef = useRef<HTMLDivElement | null>(null);
 
   //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
