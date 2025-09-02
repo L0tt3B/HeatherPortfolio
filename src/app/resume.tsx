@@ -87,7 +87,7 @@ const Resume = () => {
             onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
             disabled={pageNumber === 1}
           >
-            ⬅ Previous
+            Previous
           </button>
 
           <span className="text-white text-lg">
@@ -101,7 +101,7 @@ const Resume = () => {
             onClick={() => setPageNumber((prev) => Math.min(prev + 1, totalPages))}
             disabled={pageNumber === totalPages}
           >
-            Next ➡
+            Next
           </button>
         </div>
       </div>
