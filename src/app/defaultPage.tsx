@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
-
-const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
 //const basePath = isOnline ? "/HeatherPortfolio" : "";
 const basePath = process.env.NODE_ENV === "production" ? "/HeatherPortfolio" : "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
