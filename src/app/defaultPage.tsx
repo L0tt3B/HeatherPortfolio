@@ -24,10 +24,10 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const comicPages = [1, 2, 3];
 
   const containerData = [
-  { text: "Art", title: "Duo Connect", image: `${basePath}/duoconnect.webp`, isShifted: true },
-  { text: "Art", title: "SKONZ", image: `${basePath}/skonz.webp`, isShifted: true },
-  { text: "Art", title: "One Touch", image: `${basePath}/onetouch.webp`, isShifted: true },
-  { text: "Animations", title: "Elastic", image: "", isGif: true },
+  { text: "Duo", title: "Duo Connect", image: `${basePath}/duoconnect.webp`, isShifted: true },
+  { text: "Skonz", title: "SKONZ", image: `${basePath}/skonz.webp`, isShifted: true },
+  { text: "Touch", title: "One Touch", image: `${basePath}/onetouch.webp`, isShifted: true },
+  { text: "Elastic", title: "Elastic", image: "", isGif: true },
   { text: "Comics", title: "Comics", image: "", isComic: true },
   { text: "AboutMe", title: "About Me", image: "", images: aboutImages },
 ];

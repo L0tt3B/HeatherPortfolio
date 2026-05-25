@@ -13,7 +13,7 @@ const TopNavbar = ({ onTabChange }: TopNavbarProps) => {
       transition={{ duration: 0.3 }}
       className="fixed top-0 left-0 w-full bg-black/70 z-20 flex flex-col items-center justify-center space-y-6 text-amber-400 text-2xl shadow-lg h-screen"
     >
-      {["Contact", "Animations", "Characters", "Comics", "Art", "AboutMe", "CV"]?.map((tab) => (
+      {["Contact", "Elastic", "SKONZ", "One Touch", "Comics", "Duo Connect", "AboutMe", "CV"]?.map((tab) => (
         <a
           key={tab}
           className="cursor-pointer"

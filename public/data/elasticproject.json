@@ -1,0 +1,14 @@
+{
+  "project": {
+    "title": "Elastic",
+    "year": "2024"
+  },
+  "images": [
+    { "id": 1, "src": "/ELASTIC/elastic-01.png", "alt": "Elastic image 1", "caption": "" },
+    { "id": 2, "src": "/ELASTIC/elastic-02.avif", "alt": "Elastic image 2", "caption": "" },
+    { "id": 3, "src": "/ELASTIC/elastic-03.avif", "alt": "Elastic image 3", "caption": "" },
+    { "id": 4, "src": "/ELASTIC/elastic-04.avif", "alt": "Elastic image 4", "caption": "" },
+    { "id": 5, "src": "/ELASTIC/elastic-05.avif", "alt": "Elastic image 5", "caption": "" },
+    { "id": 6, "src": "/ELASTIC/elastic-06.avif", "alt": "Elastic image 6", "caption": "" }
+  ]
+}

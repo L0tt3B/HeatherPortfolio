@@ -1,0 +1,57 @@
+{
+  "project": {
+    "title": "Duo Connect",
+    "description": "A branding and UI design project.",
+    "year": "2026"
+  },
+  "images": [
+    {
+      "id": 1,
+      "src": "/DUO/duoCONNECT-01.jpg",
+      "alt": "Duo Connect slide 1",
+      "caption": ""
+    },
+    {
+      "id": 2,
+      "src": "/DUO/duoCONNECT-02.jpg",
+      "alt": "Duo Connect slide 2",
+      "caption": ""
+    },
+    {
+      "id": 3,
+      "src": "/DUO/duoCONNECT-03.jpg",
+      "alt": "Duo Connect slide 3",
+      "caption": ""
+    },
+    {
+      "id": 4,
+      "src": "/DUO/duoCONNECT-04.jpg",
+      "alt": "Duo Connect slide 4",
+      "caption": ""
+    },
+    {
+      "id": 5,
+      "src": "/DUO/duoCONNECT-05.jpg",
+      "alt": "Duo Connect slide 5",
+      "caption": ""
+    },
+    {
+      "id": 6,
+      "src": "/DUO/duoCONNECT-06.jpg",
+      "alt": "Duo Connect slide 6",
+      "caption": ""
+    },
+    {
+      "id": 7,
+      "src": "/DUO/duoCONNECT-07.jpg",
+      "alt": "Duo Connect slide 7",
+      "caption": ""
+    },
+    {
+      "id": 8,
+      "src": "/DUO/duoCONNECT-08.jpg",
+      "alt": "Duo Connect slide 8",
+      "caption": ""
+    }
+  ]
+}

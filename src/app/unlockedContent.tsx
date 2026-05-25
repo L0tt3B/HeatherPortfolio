@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import Art from "./art";
-import Animations from "./animations";
 import AboutMe from "./aboutme";
 import FooterPage from "./footer";
 import DefaultPage from "./defaultPage";
 import Resume from "./resume";
 import Comics from "./comics";
-import Characters from "./characters";
+import DuoProject from "./duo";
+import ElasticProject from "./animations";
+import SkonzProject from "./skonz";
+import OneTouchProject from "./onetouch";
 
 interface UnlockedContentProps {
   component: string;
@@ -68,12 +69,14 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
     switch (component) {
       case "Comics":
       return <Comics comics={comicsList} images={comicsImg}/>;
-      case "Animations":
-        return <Animations videos={videos} gifs={gifs}/>;
-      case "Art":
-        return <Art images={images} />;
-      case "Characters":
-        return <Characters character={characters}/>;
+      case "Elastic":
+        return <ElasticProject />;
+      case "Duo":
+        return <DuoProject />;
+      case "Skonz":
+        return <SkonzProject />;
+      case "Touch":
+        return <OneTouchProject />;
       case "AboutMe":
         return <AboutMe />;
       case "CV":

@@ -1,0 +1,12 @@
+{
+  "project": {
+    "title": "SKONZ",
+    "year": "2024"
+  },
+  "images": [
+    { "id": 1, "src": "/SKONZ/SKONZ-01.jpg", "alt": "SKONZ image 1", "caption": "" },
+    { "id": 2, "src": "/SKONZ/SKONZ-02.jpg", "alt": "SKONZ image 2", "caption": "" },
+    { "id": 3, "src": "/SKONZ/SKONZ-03.jpg", "alt": "SKONZ image 3", "caption": "" },
+    { "id": 4, "src": "/SKONZ/SKONZ-04.jpg", "alt": "SKONZ image 4", "caption": "" }
+  ]
+}
