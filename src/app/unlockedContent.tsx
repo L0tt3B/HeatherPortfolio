@@ -30,30 +30,6 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
     { src: `${imagePath}/comics/Farewell.webp`, title: "Farewell" }
   ];
 
-  const characters = [
-    `${imagePath}/dragon.png`,
-    `${imagePath}/kai.png`,
-  ];
-
-  const images = [
-    `${imagePath}/newjeans.png`,
-    `${imagePath}/cocoon1.png`,
-    `${imagePath}/women.png`,
-    `${imagePath}/dragon.png`,
-    `${imagePath}/uk.png`,
-  ];
-
-  const videos = [
-    { src: `${imagePath}/Thepitch.mp4`, text: "The Pitch - A short animated film" },
-    { src: `${imagePath}/animations/Fp.mp4`, text: "Farewell" }
-  ];
-  
-  const gifs = [
-    { src: `${imagePath}/animations/bananagif.gif`, text: "Banana Cat Talks" },
-    { src: `${imagePath}/animations/bananacatsleep.gif`, text: "Banana Cat Sleeping" }
-  ];
-  
-
   useEffect(() => {
     const timeout = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(timeout);
