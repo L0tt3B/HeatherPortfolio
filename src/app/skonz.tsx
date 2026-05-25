@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 
 const basePath = process.env.NODE_ENV === "production" ? "/HeatherPortfolio" : "";
@@ -125,58 +126,40 @@ const SkonzProject = () => {
         </div>
       </div>
 
-      {/* Lightbox */}
-      {selectedIndex !== null && (
+      {/* Lightbox — portal so it truly covers only the viewport, no scroll */}
+      {selectedIndex !== null && typeof document !== "undefined" && createPortal(
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center"
+          style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.96)", display: "flex", alignItems: "center", justifyContent: "center" }}
           onClick={() => setSelectedIndex(null)}
         >
-          {/* Close */}
           <button
-            className="absolute top-4 right-4 text-white text-2xl bg-gray-800/60 hover:bg-gray-700 px-3 py-1 rounded-full transition z-10"
+            style={{ position: "absolute", top: 16, right: 16, zIndex: 10, background: "rgba(55,55,55,0.7)", color: "#fff", border: "none", borderRadius: "50%", width: 40, height: 40, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
             onClick={() => setSelectedIndex(null)}
           >✕</button>
-
-          {/* Counter */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/60 text-sm tracking-widest z-10">
+          <div style={{ position: "absolute", top: 16, left: "50%", transform: "translateX(-50%)", color: "rgba(255,255,255,0.5)", fontSize: 13, letterSpacing: "0.1em", zIndex: 10 }}>
             {selectedIndex + 1} / {images.length}
           </div>
-
-          {/* Prev */}
           <button
-            className={`absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-white text-3xl bg-gray-800/60 hover:bg-gray-700 px-3 py-2 rounded-full transition z-10 ${selectedIndex === 0 ? "opacity-30 cursor-not-allowed" : ""}`}
+            style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(55,55,55,0.7)", color: "#fff", border: "none", borderRadius: "50%", width: 40, height: 40, fontSize: 18, cursor: selectedIndex === 0 ? "not-allowed" : "pointer", opacity: selectedIndex === 0 ? 0.2 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
             onClick={(e) => { e.stopPropagation(); setSelectedIndex((i) => (i !== null && i > 0 ? i - 1 : i)); }}
             disabled={selectedIndex === 0}
           >❮</button>
-
-          {/* Image — no save/drag */}
-          <div
-            className="relative flex items-center justify-center w-full h-full px-16 py-12"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`${basePath}${images[selectedIndex].src}`}
+            alt={images[selectedIndex].alt}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
             onClick={(e) => e.stopPropagation()}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`${basePath}${images[selectedIndex].src}`}
-              alt={images[selectedIndex].alt}
-              draggable={false}
-              onContextMenu={(e) => e.preventDefault()}
-              className="max-w-full max-h-full object-contain rounded-lg select-none pointer-events-none"
-              style={{ maxHeight: "calc(100vh - 8rem)" }}
-            />
-            {images[selectedIndex].caption && (
-              <p className="absolute bottom-14 left-0 right-0 text-center text-white/80 text-sm bg-black/50 py-2">
-                {images[selectedIndex].caption}
-              </p>
-            )}
-          </div>
-
-          {/* Next */}
+            style={{ maxWidth: "calc(100vw - 120px)", maxHeight: "calc(100vh - 80px)", objectFit: "contain", borderRadius: 8, display: "block", userSelect: "none" }}
+          />
           <button
-            className={`absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 text-white text-3xl bg-gray-800/60 hover:bg-gray-700 px-3 py-2 rounded-full transition z-10 ${selectedIndex === images.length - 1 ? "opacity-30 cursor-not-allowed" : ""}`}
+            style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(55,55,55,0.7)", color: "#fff", border: "none", borderRadius: "50%", width: 40, height: 40, fontSize: 18, cursor: selectedIndex === images.length - 1 ? "not-allowed" : "pointer", opacity: selectedIndex === images.length - 1 ? 0.2 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
             onClick={(e) => { e.stopPropagation(); setSelectedIndex((i) => (i !== null && i < images.length - 1 ? i + 1 : i)); }}
             disabled={selectedIndex === images.length - 1}
           >❯</button>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

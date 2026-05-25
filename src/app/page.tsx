@@ -46,8 +46,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (isOpen) {
-      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+    if (isOpen && linksRef.current) {
+      const bottom = linksRef.current.getBoundingClientRect().bottom + window.scrollY;
+      window.scrollTo({ top: bottom, behavior: "smooth" });
     }
   }, [isOpen]);
 

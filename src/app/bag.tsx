@@ -30,7 +30,7 @@ const Bag = ({ onTabChange, onScrollToFooter }: BagProps) => {
           <span className="block absolute left-1/2 w-0 h-[2px] bg-amber-400 group-hover:w-full transition-all duration-300 ease-in-out transform -translate-x-1/2 bottom-[-2px]"></span>
         </a>
         <a className="mx-4 relative group cursor-pointer text-center inline-block"
-            onClick={() => onTabChange("Resume")}> 
+            onClick={() => onTabChange("CV")}> 
           CV
           <span className="block absolute left-1/2 w-0 h-[2px] bg-amber-400 group-hover:w-full transition-all duration-300 ease-in-out transform -translate-x-1/2"></span>
         </a>

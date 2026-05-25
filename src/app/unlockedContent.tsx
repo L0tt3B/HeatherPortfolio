@@ -70,7 +70,7 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
     >
       <div className="mt-20 text-center"></div>
       <div className="flex-grow w-full">{renderComponent()}</div>
-      <div className="w-full" ref={footerRef}>
+      <div className="w-full mt-16" ref={footerRef}>
         <FooterPage />
       </div>
     </div>
