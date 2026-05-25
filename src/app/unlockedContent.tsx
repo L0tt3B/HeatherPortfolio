@@ -76,7 +76,7 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
         return <Characters character={characters}/>;
       case "AboutMe":
         return <AboutMe />;
-      case "Resume":
+      case "CV":
         return <Resume />;
       default:
         return <DefaultPage onTabChange={onTabChange}/>;

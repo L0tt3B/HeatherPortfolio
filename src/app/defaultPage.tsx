@@ -4,7 +4,8 @@ import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 
 const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-const basePath = isOnline ? "/HeatherPortfolio" : "";
+//const basePath = isOnline ? "/HeatherPortfolio" : "";
+const basePath = process.env.NODE_ENV === "production" ? "/HeatherPortfolio" : "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
@@ -25,12 +26,13 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const comicPages = [1, 2, 3];
 
   const containerData = [
-    { text: "Art", title: "Illustration", image: `${basePath}/women.png`, isShifted: true },
-    { text: "Animations", title: "Animations", image: "", isGif: true },
-    { text: "Comics", title: "Comics", image: "", isComic: true },
-    { text: "Characters", title: "Characters", image: `${basePath}/dragon.png`, isShifted: true, objectPosition: "object-top" },
-    { text: "AboutMe", title: "About", image: "", images: aboutImages },
-  ];
+  { text: "Art", title: "Duo Connect", image: `${basePath}/duoconnect.webp`, isShifted: true },
+  { text: "Art", title: "SKONZ", image: `${basePath}/skonz.webp`, isShifted: true },
+  { text: "Art", title: "One Touch", image: `${basePath}/onetouch.webp`, isShifted: true },
+  { text: "Animations", title: "Elastic", image: "", isGif: true },
+  { text: "Comics", title: "Comics", image: "", isComic: true },
+  { text: "AboutMe", title: "About Me", image: "", images: aboutImages },
+];
 
   useEffect(() => {
     setIsClient(true);
@@ -76,86 +78,106 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col gap-6 p-4 items-center">
+    <div className="w-full flex flex-col gap-10 p-4 items-center">
       {containerData.map((item, index) => (
         <div
           key={index}
           ref={(el) => { observerRefs.current[index] = el; }}
-          className={`relative w-full max-w-3xl h-72 rounded-lg shadow-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-out ${
+          className={`flex flex-col gap-3 w-full max-w-3xl cursor-pointer transition-all duration-700 ease-out group ${
             visibleIndices.includes(index) ? "opacity-100 scale-100" : "opacity-0 scale-95"
           } ${item.isShifted ? "mt-6" : ""}`}
           onClick={() => onTabChange(item.text)}
         >
-          {item.isGif ? (
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
-              <div className="w-full h-full flex">
-                <Image
-                  src={`${basePath}/animations/bananagif.gif`}
-                  alt="Banana Cat GIF 1"
-                  width={150}
-                  height={150}
-                  className="object-cover w-1/2 h-full"
-                />
-                <Image
-                  src={`${basePath}/animations/bananacatsleep.gif`}
-                  alt="Banana Cat GIF 2"
-                  width={150}
-                  height={150}
-                  className="object-cover w-1/2 h-full"
-                />
+          {/* Title above the card */}
+          <p className="text-white text-4xl font-bold uppercase text-center drop-shadow-[10px_0px_10px_rgba(0,0,0,0.9)] tracking-wide group-hover:text-gray-300 transition-colors duration-200">
+            {item.title}
+          </p>
+
+          {/* 3D card */}
+          <div
+            className="relative w-full h-72 rounded-lg overflow-hidden transition-transform duration-300 ease-out group-hover:-translate-y-2"
+            style={{
+              boxShadow: "0 6px 0 #1a1a1a, 0 12px 0 #111, 0 18px 0 #0a0a0a, 0 24px 30px rgba(0,0,0,0.6)",
+              transform: "perspective(800px) rotateX(2deg)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.transform = "perspective(800px) rotateX(0deg) translateY(-8px)";
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 10px 0 #1a1a1a, 0 18px 0 #111, 0 26px 0 #0a0a0a, 0 36px 40px rgba(0,0,0,0.7)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.transform = "perspective(800px) rotateX(2deg)";
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 6px 0 #1a1a1a, 0 12px 0 #111, 0 18px 0 #0a0a0a, 0 24px 30px rgba(0,0,0,0.6)";
+            }}
+          >
+            {item.isGif ? (
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg shadow-lg">
+                <div className="w-full h-full flex">
+                  <Image
+                    src={`${basePath}/animations/elastic.gif`}
+                    alt="Elastic"
+                    width={150}
+                    height={150}
+                    className="object-cover w-full h-full"
+                  />
+                  {/**
+                  <Image
+                    src={`${basePath}/animations/bananacatsleep.gif`}
+                    alt="Banana Cat GIF 2"
+                    width={150}
+                    height={150}
+                    className="object-cover w-1/2 h-full"
+                  />
+                   */}
+                </div>
               </div>
-            </div>
-          ) : item.isComic ? (
-            <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg overflow-hidden">
-              {isClient && pdfBlob ? (
-                <div className="flex w-full h-full">
-                  {comicPages.map((page, i) => (
-                    <div key={i} className="flex-grow h-full">
-                      <Document file={pdfBlob} className="w-full h-full flex justify-center">
-                        <Page
-                          pageNumber={page}
-                          renderTextLayer={false}
-                          renderAnnotationLayer={false}
-                          width={330}
-                          className="h-full w-full object-contain"
-                        />
-                      </Document>
-                    </div>
+            ) : item.isComic ? (
+              <div className="absolute inset-0 w-full h-full flex justify-center bg-white rounded-lg border-4 border-white shadow-lg overflow-hidden">
+                {isClient && pdfBlob ? (
+                  <div className="flex w-full h-full">
+                    {comicPages.map((page, i) => (
+                      <div key={i} className="flex-grow h-full">
+                        <Document file={pdfBlob} className="w-full h-full flex justify-center">
+                          <Page
+                            pageNumber={page}
+                            renderTextLayer={false}
+                            renderAnnotationLayer={false}
+                            width={330}
+                            className="h-full w-full object-contain"
+                          />
+                        </Document>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-black text-lg text-center mt-10">Loading PDF...</p>
+                )}
+              </div>
+            ) : item.images ? (
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
+                <div className="w-full h-full flex">
+                  {item.images.map((src, i) => (
+                    <Image
+                      key={i}
+                      src={src}
+                      alt={`About Image ${i + 1}`}
+                      width={100}
+                      height={150}
+                      className="object-cover w-1/3 h-full"
+                    />
                   ))}
                 </div>
-              ) : (
-                <p className="text-black text-lg text-center mt-10">Loading PDF...</p>
-              )}
-            </div>
-          ) : item.images ? (
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black rounded-lg border-4 border-white shadow-lg">
-              <div className="w-full h-full flex">
-                {item.images.map((src, i) => (
-                  <Image
-                    key={i}
-                    src={src}
-                    alt={`About Image ${i + 1}`}
-                    width={100}
-                    height={150}
-                    className="object-cover w-1/3 h-full"
-                  />
-                ))}
               </div>
-            </div>
-          ) : (
-            <Image
-              src={item.image}
-              alt={item.text}
-              layout="fill"
-              objectFit="cover"
-              className={`absolute inset-0 w-full h-full ${item.objectPosition || ""}`}
-            />
-          )}
-          <div className="absolute bottom-0 w-full text-center bg-black/50 py-2">
-            <p className="text-white text-4xl font-bold uppercase drop-shadow-[10px_0px_10px_rgba(0,0,0,0.9)]">
-              {item.title}
-            </p>
+            ) : (
+              <Image
+                src={item.image}
+                alt={item.text}
+                layout="fill"
+                objectFit="cover"
+                className={`absolute inset-0 w-full h-full`}
+              />
+            )}
           </div>
+
         </div>
       ))}
     </div>

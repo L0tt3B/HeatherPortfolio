@@ -49,10 +49,8 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
 
   const tabDisplayNames: Record<string, string> = {
     Contact: "Contact",
-    Animations: "Animations",
-    Art: "Illustrations",
     AboutMe: "About",
-    Resume: "Resume",
+    Resume: "CV",
   };
 
   const handleTabChange = (tab: string) => {
