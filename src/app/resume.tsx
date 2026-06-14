@@ -4,9 +4,9 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
 const Resume = () => {
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const basePath = isOnline ? "/HeatherPortfolio" : "";
-  const pdfURL = `https://l0tt3b.github.io${basePath}/comics/CV.pdf`;
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  const basePath = "";
+  const pdfURL = `https://l0tt3b.github.io/HeatherPortfolio/comics/CV.pdf`;
 
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;

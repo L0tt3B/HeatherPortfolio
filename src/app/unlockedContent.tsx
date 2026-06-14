@@ -19,8 +19,8 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
   const [isVisible, setIsVisible] = useState(false);
 
 
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const imagePath = isOnline ? "/HeatherPortfolio" : "";
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  const imagePath = "";
 
   const comicsList = [
     { src: `${imagePath}/comics/dnd-1.pdf`, title: "Fukushima's Vengeance" }

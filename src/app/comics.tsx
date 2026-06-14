@@ -5,8 +5,8 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
-const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-const basePath = isOnline ? "/HeatherPortfolio" : "";
+//const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+const basePath = "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
 
 function useWindowWidth() {

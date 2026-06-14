@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 const AboutMe = () => {
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const imagePath = isOnline ? "/HeatherPortfolio" : "";
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  const imagePath = "";
 
   return (
     <div className="bg-yellow-950 font-sans w-full min-h-fit transition-transform duration-700 ease-in-out p-4 mb-12 sm:p-6 flex flex-col items-center">

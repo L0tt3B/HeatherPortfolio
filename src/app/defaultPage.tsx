@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 //const basePath = isOnline ? "/HeatherPortfolio" : "";
-const basePath = process.env.NODE_ENV === "production" ? "/HeatherPortfolio" : "";
+const basePath = "";
 pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
 
 interface DefaultPageProps {
@@ -37,7 +37,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
     async function fetchPDF() {
       try {
-        const response = await fetch(`https://l0tt3b.github.io${basePath}/comics/dnd-1.pdf`, {
+        const response = await fetch(`https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf`, {
           mode: "cors",
           headers: { "Accept": "application/pdf" }
         });

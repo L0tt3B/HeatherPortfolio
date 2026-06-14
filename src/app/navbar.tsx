@@ -16,8 +16,8 @@ const Navbar: React.FC<NavbarProps> = ({ targetRef, onTabChange, onScrollToFoote
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const imagePath = isOnline ? "/HeatherPortfolio" : "";
+  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
+  const imagePath = "";
 
   useEffect(() => {
     if (!targetRef.current) return;

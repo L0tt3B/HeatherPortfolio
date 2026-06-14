@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 
-const basePath = process.env.NODE_ENV === "production" ? "/HeatherPortfolio" : "";
+const basePath = "";
 
 interface ProjectImage {
   id: number;
