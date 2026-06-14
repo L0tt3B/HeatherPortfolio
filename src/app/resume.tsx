@@ -4,16 +4,12 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
 const Resume = () => {
-  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  const basePath = "";
   const pdfURL = `https://www.heatherburnsdesign.uk/comics/CV.pdf`;
-  
-  useEffect(() => {
-    pdfjs.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
-  }, [basePath]);
 
-  const [pageNumber, setPageNumber] = useState(1);
-  const totalPages = 2;
+  useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.js`;
+  }, []);
+
   const [windowWidth, setWindowWidth] = useState<number | null>(null);
   const [pdfBlob, setPdfBlob] = useState<string | null>(null);
 
@@ -22,12 +18,11 @@ const Resume = () => {
       try {
         const response = await fetch(pdfURL, {
           mode: "cors",
-          headers: { "Accept": "application/pdf" }
+          headers: { "Accept": "application/pdf" },
         });
         if (!response.ok) throw new Error("Failed to load PDF");
         const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-        setPdfBlob(blobUrl);
+        setPdfBlob(URL.createObjectURL(blob));
       } catch (error) {
         console.error("Error loading resume:", error);
       }
@@ -66,43 +61,17 @@ const Resume = () => {
         <div className="relative border-2 border-white rounded-xl shadow-lg p-3 bg-black/20">
           {pdfBlob ? (
             <Document file={pdfBlob} className="w-full flex justify-center">
-              <Page 
-                pageNumber={pageNumber} 
-                renderTextLayer={false} 
-                renderAnnotationLayer={false} 
+              <Page
+                pageNumber={1}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
                 width={getPDFWidth()}
                 className="rounded-lg shadow-lg"
               />
             </Document>
           ) : (
-            <p className="text-black text-lg text-center mt-10">Loading Resume PDF...</p>
+            <p className="text-white text-lg text-center mt-10 p-6">Loading Resume PDF...</p>
           )}
-        </div>
-
-        <div className="flex justify-between items-center mt-4 w-full max-w-lg px-4">
-          <button
-            className={`px-4 py-2 bg-yellow-800 text-white rounded-md transition ${
-              pageNumber === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-700"
-            }`}
-            onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
-            disabled={pageNumber === 1}
-          >
-            Previous
-          </button>
-
-          <span className="text-white text-lg">
-            Page {pageNumber} of {totalPages}
-          </span>
-
-          <button
-            className={`px-4 py-2 bg-yellow-800 text-white rounded-md transition ${
-              pageNumber === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-700"
-            }`}
-            onClick={() => setPageNumber((prev) => Math.min(prev + 1, totalPages))}
-            disabled={pageNumber === totalPages}
-          >
-            Next
-          </button>
         </div>
       </div>
     </div>
