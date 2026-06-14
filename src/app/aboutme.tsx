@@ -26,7 +26,7 @@ const AboutMe = () => {
           />
           <div className="text-center sm:text-left max-w-lg space-y-4">
           <p>
-            <strong>Hello, my name is Heather Marie Burns.</strong> I am a British graphic designer based in England.
+            <strong>Hello, my name is Heather Burns.</strong> I am a British graphic designer based in England.
               Currently, I&apos;m studying at the University of Loughborough for my Graphic Design Degree, graduating in 2026.
           </p>
           <p>
@@ -49,13 +49,14 @@ const AboutMe = () => {
             <span className="flex-grow border-t border-white mx-4"></span>
           </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mt-6 w-full max-w-lg">
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-6 mt-6 w-full max-w-lg">
             {[
               { src: "AI2.png", width: 110, height: 80 },
               { src: "PS2.png", width: 120, height: 120 },
               { src: "Adobe_Creative_Cloud.png", width: 100, height: 100 },
               { src: "Krita.png", width: 100, height: 100 },
               { src: "CPS.png", width: 100, height: 100 },
+              { src: "Blender.png", width: 100, height: 100 },
             ]?.map((software, index) => (
               <div key={index} className="flex justify-center">
                 <Image
