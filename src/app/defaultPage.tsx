@@ -37,7 +37,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
 
     async function fetchPDF() {
       try {
-        const response = await fetch(`https://l0tt3b.github.io/HeatherPortfolio/comics/dnd-1.pdf`, {
+        const response = await fetch(`https://www.heatherburnsdesign.uk/comics/dnd-1.pdf`, {
           mode: "cors",
           headers: { "Accept": "application/pdf" }
         });
