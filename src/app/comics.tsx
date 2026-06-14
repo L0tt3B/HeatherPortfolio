@@ -4,10 +4,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
-useEffect(() => {
-  pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.js`;
-}, []);
-
 function useWindowWidth() {
   const [width, setWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 800
@@ -31,6 +27,10 @@ const Comics = ({ comics }: ComicsProps) => {
   const windowWidth = useWindowWidth();
 
   const pageWidth = Math.min(800, windowWidth * 0.92);
+
+  useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.js`;
+  }, []);
 
   useEffect(() => {
     if (!comics[0]?.src) return;
