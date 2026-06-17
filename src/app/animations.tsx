@@ -82,7 +82,7 @@ const ElasticProject = () => {
 
       <div className="w-full max-w-6xl px-4 sm:px-8 flex flex-col gap-6">
 
-        {/* Top 3 — equal columns */}
+        {/* Top 3 — equal columns, full image shown */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {images.slice(0, 3).map((img, index) => (
             <div
@@ -90,10 +90,11 @@ const ElasticProject = () => {
               ref={(el) => { observerRefs.current[index] = el; }}
               className={`relative w-full cursor-pointer overflow-hidden rounded-xl shadow-lg transition-all duration-700 ease-out
                 ${visibleIndices.has(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ aspectRatio: "3 / 4", transitionDelay: `${index * 80}ms` }}
+              style={{ transitionDelay: `${index * 80}ms` }}
               onClick={() => setSelectedIndex(index)}
             >
-              <Image src={`${basePath}${img.src}`} alt={img.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${basePath}${img.src}`} alt={img.alt} className="w-full h-auto block rounded-xl" />
               {img.caption && <p className="absolute bottom-3 left-3 text-white text-sm bg-black/50 px-2 py-1 rounded">{img.caption}</p>}
             </div>
           ))}
