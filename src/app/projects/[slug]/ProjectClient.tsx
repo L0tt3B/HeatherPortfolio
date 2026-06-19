@@ -48,7 +48,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
   const bagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    contentRef.current?.scrollIntoView({ behavior: "instant" });
+    contentRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [slug]);
 
   if (!COMPONENTS[key]) notFound();
