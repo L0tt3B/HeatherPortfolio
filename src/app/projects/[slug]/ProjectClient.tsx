@@ -48,7 +48,9 @@ export default function ProjectClient({ slug }: { slug: string }) {
   const bagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    contentRef.current?.scrollIntoView({ behavior: "smooth" });
+    const instant = sessionStorage.getItem("skipSmooth") === "true";
+    sessionStorage.removeItem("skipSmooth");
+    contentRef.current?.scrollIntoView({ behavior: instant ? "instant" : "smooth" });
   }, [slug]);
 
   if (!COMPONENTS[key]) notFound();
@@ -105,7 +107,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
         <div className="w-full flex items-center justify-between px-6 sm:px-12 py-8 border-t border-amber-900/40">
           {prev ? (
             <button
-              onClick={() => router.push(`/projects/${prev.key}`)}
+              onClick={() => { sessionStorage.setItem("skipSmooth", "true"); router.push(`/projects/${prev.key}`); }}
               className="flex items-center gap-3 group text-amber-400 hover:text-white transition-colors duration-200"
             >
               <span className="text-2xl group-hover:-translate-x-1 transition-transform duration-200">❮</span>
@@ -118,7 +120,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
 
           {next ? (
             <button
-              onClick={() => router.push(`/projects/${next.key}`)}
+              onClick={() => { sessionStorage.setItem("skipSmooth", "true"); router.push(`/projects/${next.key}`); }}
               className="flex items-center gap-3 group text-amber-400 hover:text-white transition-colors duration-200"
             >
               <span className="flex flex-col text-right">

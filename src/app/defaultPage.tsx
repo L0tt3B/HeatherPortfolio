@@ -86,7 +86,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
           className={`flex flex-col gap-3 w-full max-w-3xl cursor-pointer transition-all duration-700 ease-out group ${
             visibleIndices.includes(index) ? "opacity-100 scale-100" : "opacity-0 scale-95"
           } ${item.isShifted ? "mt-6" : ""}`}
-          onClick={() => item.route ? router.push(item.route) : onTabChange(item.text)}
+          onClick={() => { if (item.route) { sessionStorage.setItem("skipSmooth", "true"); router.push(item.route); } else onTabChange(item.text); }}
         >
           {/* Title above the card */}
           <p className="text-white text-4xl font-bold uppercase text-center drop-shadow-[10px_0px_10px_rgba(0,0,0,0.9)] tracking-wide group-hover:text-gray-300 transition-colors duration-200">
@@ -171,8 +171,9 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               <Image
                 src={item.image}
                 alt={item.text}
-                fill
-                className="object-cover absolute inset-0 w-full h-full"
+                layout="fill"
+                objectFit="cover"
+                className={`absolute inset-0 w-full h-full`}
               />
             )}
           </div>
