@@ -9,12 +9,7 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Default");
   const linksRef = useRef<HTMLDivElement | null>(null);
-
-  //const isOnline = typeof window !== "undefined" && window.location.hostname !== "localhost";
-  //const imagePath = isOnline ? "/HeatherPortfolio" : "";
-
   const footerRef = useRef<HTMLDivElement>(null);
-
 
   const toggleBag = () => {
     setActiveTab("Default");
@@ -23,20 +18,14 @@ export default function Home() {
 
   const handleTabChange = (tab: string) => {
     if (tab === "Contact") {
-      if(!isOpen){
+      if (!isOpen) {
         setActiveTab("Default");
         setIsOpen(true);
-
         setTimeout(() => {
-          if (footerRef.current) {
-            footerRef.current.scrollIntoView({ behavior: "smooth" });
-          }
+          footerRef.current?.scrollIntoView({ behavior: "smooth" });
         }, 100);
-      }
-      else{
-        if (footerRef.current) {
-          footerRef.current.scrollIntoView({ behavior: "smooth" });
-        }
+      } else {
+        footerRef.current?.scrollIntoView({ behavior: "smooth" });
       }
       return;
     }
@@ -54,15 +43,15 @@ export default function Home() {
 
   return (
     <div className="bg-yellow-950 w-full min-h-screen">
-      <Navbar 
-        targetRef={linksRef} 
+      <Navbar
+        targetRef={linksRef}
         onTabChange={handleTabChange}
         onScrollToFooter={() => footerRef.current?.scrollIntoView({ behavior: "smooth" })}
       />
       <div className="w-full h-[80vh] relative" ref={linksRef}>
-        <Bag 
+        <Bag
           onTabChange={handleTabChange}
-          onScrollToFooter={() => footerRef.current?.scrollIntoView({ behavior: "smooth" })} 
+          onScrollToFooter={() => footerRef.current?.scrollIntoView({ behavior: "smooth" })}
         />
         <button
           onClick={toggleBag}

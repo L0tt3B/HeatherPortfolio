@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import AboutMe from "./aboutme";
 import FooterPage from "./footer";
 import DefaultPage from "./defaultPage";
@@ -16,16 +17,17 @@ interface UnlockedContentProps {
 }
 
 const PROJECT_ORDER = [
-  { key: "Duo",     label: "Duo Connect" },
-  { key: "Skonz",   label: "SKONZ" },
-  { key: "Touch",   label: "One Touch" },
-  { key: "Elastic", label: "Elastic" },
-  { key: "Comics",  label: "Comics" },
-  { key: "AboutMe", label: "About Me" },
-  { key: "CV",      label: "CV" },
+  { key: "Duo",     label: "Duo Connect", slug: "duo" },
+  { key: "Skonz",   label: "SKONZ",       slug: "skonz" },
+  { key: "Touch",   label: "One Touch",   slug: "onetouch" },
+  { key: "Elastic", label: "Elastic",     slug: "elastic" },
+  { key: "Comics",  label: "Comics",      slug: "comics" },
+  { key: "AboutMe", label: "About Me",    slug: "aboutme" },
+  { key: "CV",      label: "CV",          slug: "cv" },
 ];
 
 const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentProps) => {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const topRef = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
@@ -106,8 +108,13 @@ const UnlockedContent = ({ component, footerRef, onTabChange }: UnlockedContentP
   const nextProject = currentIndex !== -1 && currentIndex < PROJECT_ORDER.length - 1 ? PROJECT_ORDER[currentIndex + 1] : null;
 
   const handleProjectNav = (key: string) => {
-    skipScrollRef.current = true;
-    onTabChange(key);
+    const project = PROJECT_ORDER.find((p) => p.key === key);
+    if (project) {
+      router.push(`/projects/${project.slug}`);
+    } else {
+      skipScrollRef.current = true;
+      onTabChange(key);
+    }
   };
 
   const renderComponent = () => {

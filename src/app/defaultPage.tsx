@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Document, Page, pdfjs } from "react-pdf";
 //const basePath = isOnline ? "/HeatherPortfolio" : "";
@@ -11,6 +12,7 @@ interface DefaultPageProps {
 }
 
 const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
+  const router = useRouter();
   const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [isClient, setIsClient] = useState(false);
@@ -24,13 +26,13 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
   const comicPages = [1, 2, 3];
 
   const containerData = [
-  { text: "Duo", title: "Duo Connect", image: `${basePath}/duoconnect.webp`, isShifted: true },
-  { text: "Skonz", title: "SKONZ", image: `${basePath}/skonz.webp`, isShifted: true },
-  { text: "Touch", title: "One Touch", image: `${basePath}/onetouch.webp`, isShifted: true },
-  { text: "Elastic", title: "Elastic", image: "", isGif: true },
-  { text: "Comics", title: "Comics", image: "", isComic: true },
-  { text: "AboutMe", title: "About Me", image: "", images: aboutImages },
-];
+    { text: "Duo",     route: "/projects/duo",      title: "Duo Connect", image: `${basePath}/duoconnect.webp`, isShifted: true },
+    { text: "Skonz",   route: "/projects/skonz",    title: "SKONZ",       image: `${basePath}/skonz.webp`,      isShifted: true },
+    { text: "Touch",   route: "/projects/onetouch",  title: "One Touch",   image: `${basePath}/onetouch.webp`,   isShifted: true },
+    { text: "Elastic", route: "/projects/elastic",   title: "Elastic",     image: "",                            isGif: true },
+    { text: "Comics",  route: "/projects/comics",    title: "Comics",      image: "",                            isComic: true },
+    { text: "AboutMe", route: "/projects/aboutme",   title: "About Me",    image: "",                            images: aboutImages },
+  ];
 
   useEffect(() => {
     setIsClient(true);
@@ -84,7 +86,7 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
           className={`flex flex-col gap-3 w-full max-w-3xl cursor-pointer transition-all duration-700 ease-out group ${
             visibleIndices.includes(index) ? "opacity-100 scale-100" : "opacity-0 scale-95"
           } ${item.isShifted ? "mt-6" : ""}`}
-          onClick={() => onTabChange(item.text)}
+          onClick={() => item.route ? router.push(item.route) : onTabChange(item.text)}
         >
           {/* Title above the card */}
           <p className="text-white text-4xl font-bold uppercase text-center drop-shadow-[10px_0px_10px_rgba(0,0,0,0.9)] tracking-wide group-hover:text-gray-300 transition-colors duration-200">
@@ -169,9 +171,8 @@ const DefaultPage = ({ onTabChange }: DefaultPageProps) => {
               <Image
                 src={item.image}
                 alt={item.text}
-                layout="fill"
-                objectFit="cover"
-                className={`absolute inset-0 w-full h-full`}
+                fill
+                className="object-cover absolute inset-0 w-full h-full"
               />
             )}
           </div>
