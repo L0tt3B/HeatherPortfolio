@@ -4,7 +4,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
-const pdfURL = `https://www.heatherburnsdesign.uk/comics/CV.pdf`;
+const pdfURL = `/comics/CV.pdf`;
 
 function useWindowWidth() {
   const [width, setWidth] = useState<number | null>(null);
