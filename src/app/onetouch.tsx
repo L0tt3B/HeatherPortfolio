@@ -65,18 +65,8 @@ const OneTouchProject = () => {
   if (!data)   return <div className="w-full min-h-screen bg-yellow-950 flex items-center justify-center"><p className="text-red-400 text-xl">Failed to load project data.</p></div>;
 
   const { project, images } = data;
-
-  // Layout: row 1 = [big 2/3 | small 1/3], row 2 = [small 1/3 | big 2/3]
-  // Works dynamically: pairs of (wide, narrow) alternating sides
-  const rows: { wide: number; narrow: number; wideLeft: boolean }[] = [];
-  for (let i = 0; i < images.length; i += 2) {
-    if (i + 1 < images.length) {
-      rows.push({ wide: i, narrow: i + 1, wideLeft: (i / 2) % 2 === 0 });
-    } else {
-      // Odd one out — render full width
-      rows.push({ wide: i, narrow: -1, wideLeft: true });
-    }
-  }
+  const hero = images[0];
+  const rest = images.slice(1);
 
   return (
     <div className="w-full min-h-screen bg-yellow-950 flex flex-col items-center pb-16">
@@ -91,40 +81,44 @@ const OneTouchProject = () => {
         </div>
       </div>
 
-      {/* Gallery — alternating wide/narrow rows */}
+      {/* Gallery — hero + equal thirds */}
       <div className="w-full max-w-6xl px-4 sm:px-6 flex flex-col gap-4">
-        {rows.map((row, rowIdx) => (
-          <div key={rowIdx} className={`flex flex-col sm:flex-row gap-4 ${row.wideLeft ? "" : "sm:flex-row-reverse"}`}>
 
-            {/* Wide tile (2/3) */}
-            <div
-              ref={(el) => { observerRefs.current[row.wide] = el; }}
-              className={`relative cursor-pointer overflow-hidden rounded-lg shadow-lg group transition-all duration-700 ease-out sm:w-2/3 w-full
-                ${visibleIndices.has(row.wide) ? "opacity-100 translate-x-0" : row.wideLeft ? "opacity-0 -translate-x-8" : "opacity-0 translate-x-8"}`}
-              style={{ aspectRatio: "16 / 9" }}
-              onClick={() => setSelectedIndex(row.wide)}
-            >
-              <Image src={`${basePath}${images[row.wide].src}`} alt={images[row.wide].alt} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 66vw" />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-all duration-300 rounded-lg" />
-              {images[row.wide].caption && <p className="absolute bottom-3 left-3 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2 py-1 rounded">{images[row.wide].caption}</p>}
-            </div>
-
-            {/* Narrow tile (1/3) */}
-            {row.narrow !== -1 && (
-              <div
-                ref={(el) => { observerRefs.current[row.narrow] = el; }}
-                className={`relative cursor-pointer overflow-hidden rounded-lg shadow-lg group transition-all duration-700 ease-out sm:w-1/3 w-full
-                  ${visibleIndices.has(row.narrow) ? "opacity-100 translate-x-0" : row.wideLeft ? "opacity-0 translate-x-8" : "opacity-0 -translate-x-8"}`}
-                style={{ aspectRatio: "16 / 9", transitionDelay: "80ms" }}
-                onClick={() => setSelectedIndex(row.narrow)}
-              >
-                <Image src={`${basePath}${images[row.narrow].src}`} alt={images[row.narrow].alt} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 rounded-lg" />
-                {images[row.narrow].caption && <p className="absolute bottom-2 left-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2 py-1 rounded">{images[row.narrow].caption}</p>}
-              </div>
-            )}
+        {/* Hero */}
+        {hero && (
+          <div
+            ref={(el) => { observerRefs.current[0] = el; }}
+            className={`relative w-full cursor-pointer overflow-hidden rounded-lg shadow-xl group transition-all duration-700 ease-out
+              ${visibleIndices.has(0) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+            style={{ aspectRatio: "21 / 9" }}
+            onClick={() => setSelectedIndex(0)}
+          >
+            <Image src={`${basePath}${hero.src}`} alt={hero.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="100vw" />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-all duration-300 rounded-lg" />
+            {hero.caption && <p className="absolute bottom-3 left-3 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2 py-1 rounded">{hero.caption}</p>}
           </div>
-        ))}
+        )}
+
+        {/* Equal thirds */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {rest.map((img, i) => {
+            const index = i + 1;
+            return (
+              <div
+                key={img.id}
+                ref={(el) => { observerRefs.current[index] = el; }}
+                className={`relative w-full cursor-pointer overflow-hidden rounded-lg shadow-lg group transition-all duration-700 ease-out
+                  ${visibleIndices.has(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+                style={{ aspectRatio: "4 / 3", transitionDelay: `${i * 80}ms` }}
+                onClick={() => setSelectedIndex(index)}
+              >
+                <Image src={`${basePath}${img.src}`} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 rounded-lg" />
+                {img.caption && <p className="absolute bottom-2 left-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2 py-1 rounded">{img.caption}</p>}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Lightbox — portal so it truly covers only the viewport, no scroll */}
